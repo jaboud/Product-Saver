@@ -52,24 +52,23 @@ struct SettingsView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         .foregroundColor(.red)
-                        .alert(isPresented: $showProductDataDeletionWarning) {
-                            Alert(
+                        .actionSheet(isPresented: $showProductDataDeletionWarning) {
+                            ActionSheet(
                                 title: Text("Warning"),
                                 message: Text("This will permanently delete all saved Product data including brand names, item names, and uploaded images. Category Data is preserved. Proceed with caution."),
-                                primaryButton: .destructive(Text("Delete")) {
-                                    withAnimation {
-                                        for data in storedDatas {
-                                            context.delete(data)
-
+                                buttons: [
+                                    .destructive(Text("Delete")) {
+                                        withAnimation {
+                                            for data in storedDatas {
+                                                context.delete(data)
+                                            }
+                                            showProductDataDeletionConfirmation = true
                                         }
-                                        showProductDataDeletionConfirmation = true
-
-                                    }
-                                },
-                                secondaryButton: .cancel()
+                                    },
+                                    .cancel()
+                                ]
                             )
                         }
-
                         Text("This will permanently delete all saved Product data including brand names, item names, and uploaded images. Category Data is preserved. Proceed with caution.")
                             .font(.caption)
                             .foregroundColor(.secondary)
@@ -81,17 +80,19 @@ struct SettingsView: View {
                         }
                         .foregroundColor(.red)
                         .buttonStyle(PlainButtonStyle())
-                        .alert(isPresented: $showSettingsDataDeletionWarning) {
-                            Alert(
+                        .actionSheet(isPresented: $showSettingsDataDeletionWarning) {
+                            ActionSheet(
                                 title: Text("Warning"),
                                 message: Text("This action will permanently restore settings to their original state. Are you sure you want to proceed?"),
-                                primaryButton: .destructive(Text("Delete")) {
-                                    withAnimation {
-                                        settingsViewModel.colorSchemeOption = 0
-                                        showSettingsDataDeletionConfirmation = true
-                                    }
-                                },
-                                secondaryButton: .cancel()
+                                buttons: [
+                                    .destructive(Text("Delete")) {
+                                        withAnimation {
+                                            settingsViewModel.colorSchemeOption = 0
+                                            showSettingsDataDeletionConfirmation = true
+                                        }
+                                    },
+                                    .cancel()
+                                ]
                             )
                         }
 
@@ -101,37 +102,37 @@ struct SettingsView: View {
                             .padding(.bottom, 5)
                         Divider()
 
-
                         Button("Reset All Data") {
                             showAllDataDeletionWarning = true
                         }
                         .foregroundColor(.red)
                         .buttonStyle(PlainButtonStyle())
-                        .alert(isPresented: $showAllDataDeletionWarning) {
-                            Alert(
+                        .actionSheet(isPresented: $showAllDataDeletionWarning) {
+                            ActionSheet(
                                 title: Text("Warning"),
                                 message: Text("This action will permanently delete all saved Product data, including Category Data and reset all settings to their original state. Are you sure you want to proceed?"),
-                                primaryButton: .destructive(Text("Delete")) {
-                                    withAnimation {
-                                        for data in storedDatas {
-                                            context.delete(data)
+                                buttons: [
+                                    .destructive(Text("Delete")) {
+                                        withAnimation {
+                                            for data in storedDatas {
+                                                context.delete(data)
+                                            }
+                                            for category in categories {
+                                                context.delete(category)
+                                            }
+                                            settingsViewModel.colorSchemeOption = 0
+                                            showAllDataDeletionConfirmation = true
                                         }
-                                        for category in categories {
-                                            context.delete(category)
-                                        }
-                                        settingsViewModel.colorSchemeOption = 0
-                                        showAllDataDeletionConfirmation = true
-                                    }
-                                },
-                                secondaryButton: .cancel()
+                                    },
+                                    .cancel()
+                                ]
                             )
                         }
 
                         Text("This will permanently delete all saved Product data including brand names, item names, categories and uploaded images. Settings data is also reset back to default. Use this option if you want to start fresh.")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                            .padding(.bottom, 5)
-                    }
+                            .padding(.bottom, 5)                    }
                 }
 
                 Section(header: Text("About")) {
