@@ -51,6 +51,7 @@ struct CategoriesView: View {
     @Query private var categories: [Category]
     @State private var categoryName: String = ""
     @AppStorage("selectedSortCategory") private var selectedSortCategory: SortCategory = .RecentlyAdded
+    @Binding var selectedCategories: Set<String>
 
     var body: some View {
         NavigationStack{
@@ -63,6 +64,7 @@ struct CategoriesView: View {
                             context.insert(category)
                             category.storedDatas = []
                             categoryName = ""
+                            selectedCategories.insert(category.categoryName)
                         }
                     }
                     .disabled(categoryName.isEmpty)
@@ -131,6 +133,6 @@ private extension [Category] {
 
 #Preview {
     NavigationStack {
-        CategoriesView()
+        CategoriesView(selectedCategories: .constant([]))
     }
 }
