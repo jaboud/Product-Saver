@@ -76,9 +76,8 @@ struct ContentView: View {
             data = data.compactMap { storedData in
                 let itemContainsQuery = storedData.itemName.range(of: searchQuery, options: .caseInsensitive) != nil
                 let brandContainsQuery = storedData.brandName.range(of: searchQuery, options: .caseInsensitive) != nil
-                let categoryContainsQuery = storedData.category?.categoryName.range(of: searchQuery, options: .caseInsensitive) != nil
 
-                return (itemContainsQuery || brandContainsQuery || categoryContainsQuery) ? storedData : nil
+                return (itemContainsQuery || brandContainsQuery) ? storedData : nil
             }
         }
 
@@ -225,7 +224,7 @@ struct ContentView: View {
 
                 }
             }
-            .searchable(text: $searchQuery, prompt: "Filter by Item, Brand or Category")
+            .searchable(text: $searchQuery, prompt: "Filter by Item or Brand")
             .sheet(isPresented: $showCreateDetailsView,
                    content: {
                 NavigationStack {
