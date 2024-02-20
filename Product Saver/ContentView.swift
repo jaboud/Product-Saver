@@ -51,23 +51,56 @@ struct ContentView: View {
     @State private var searchQuery = ""
     @State private var selectedSortOption = SortOption.allCases.first!
     @AppStorage("sortOption") private var storedSortOption: SortOption = .Item
+    @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
+    @State private var selectedCategories: Set<String> = Set() {
+        didSet {
+            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
+        }
+    }
 
+    init() {
+        if let storedSelectedCategories = UserDefaults.standard.array(forKey: "selectedCategories") as? [String] {
+            _selectedCategories = State(initialValue: Set(storedSelectedCategories))
+        } else {
+            var categories = Set(allCategories)
+            categories.insert("None")
+            _selectedCategories = State(initialValue: categories)
+            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
+        }
+    }
 
     var filteredData: [StoredData] {
-        if searchQuery.isEmpty {
-            return storedDatas.sort(on: selectedSortOption)
+        var data = storedDatas
+
+        if !searchQuery.isEmpty {
+            data = data.compactMap { storedData in
+                let itemContainsQuery = storedData.itemName.range(of: searchQuery, options: .caseInsensitive) != nil
+                let brandContainsQuery = storedData.brandName.range(of: searchQuery, options: .caseInsensitive) != nil
+                let categoryContainsQuery = storedData.category?.categoryName.range(of: searchQuery, options: .caseInsensitive) != nil
+
+                return (itemContainsQuery || brandContainsQuery || categoryContainsQuery) ? storedData : nil
+            }
         }
 
-        let filteredData = storedDatas.compactMap { storedData in
-            let itemContainsQuery = storedData.itemName.range(of: searchQuery, options: .caseInsensitive) != nil
-
-            let brandContainsQuery = storedData.brandName.range(of: searchQuery, options: .caseInsensitive) != nil
-
-            let categoryContainsQuery = storedData.category?.categoryName.range(of: searchQuery, options: .caseInsensitive) != nil
-
-            return (itemContainsQuery || brandContainsQuery || categoryContainsQuery) ? storedData : nil
+        if !selectedCategories.isEmpty {
+            data = data.filter { storedData in
+                guard let category = storedData.category?.categoryName else {
+                    return selectedCategories.contains("None")
+                }
+                return selectedCategories.contains(category)
+            }
         }
-        return filteredData.sort(on: selectedSortOption)
+
+        return data.sort(on: selectedSortOption)
+    }
+
+    var allCategories: [String] {
+        var categories = storedDatas.compactMap { $0.category?.categoryName }
+        if storedDatas.contains(where: { $0.category?.categoryName == nil }) {
+            categories.append("None")
+        }
+        let uniqueCategories = Set(categories)
+        return Array(uniqueCategories)
     }
 
     var body: some View {
@@ -77,6 +110,9 @@ struct ContentView: View {
                     if storedDatas.isEmpty {
                         ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
                                                systemImage: "archivebox")
+                    }
+                    else if selectedCategories.isEmpty {
+                        ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
                     }
                     else {
                         ForEach(filteredData) { storedData in
@@ -124,7 +160,7 @@ struct ContentView: View {
                         ContentUnavailableView.search
                     }
                 }
-                
+
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu {
@@ -140,6 +176,32 @@ struct ContentView: View {
                             .labelsHidden()
                         } label: {
                             Image(systemName: "ellipsis")
+                                .symbolVariant(.circle)
+                        }
+                    }
+                }
+                .toolbar {
+                    // ...
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Menu {
+                            Section {
+                                if allCategories.isEmpty {
+                                    Text("No categories to filter")
+                                }
+                                else{
+                                    Text("Filter by category")
+                                }
+                            }
+                            ForEach(allCategories, id: \.self) { category in
+                                Toggle(isOn: Binding(
+                                    get: { self.selectedCategories.contains(category) },
+                                    set: { if $0 { self.selectedCategories.insert(category) } else { self.selectedCategories.remove(category) } }
+                                )) {
+                                    Text(category)
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "line.horizontal.3.decrease.circle")
                                 .symbolVariant(.circle)
                         }
                     }
@@ -184,7 +246,7 @@ struct ContentView: View {
                 Image(systemName: "house")
                 Text("Home")
             }
-            CategoriesView()
+            CategoriesView(selectedCategories: $selectedCategories)
                 .tabItem {
                     Image(systemName: "folder")
                     Text("Category")
