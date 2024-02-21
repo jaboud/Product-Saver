@@ -47,6 +47,10 @@ struct SettingsView: View {
 
                 Section(header: Text("Data")) {
                     VStack(alignment: .leading, spacing: 10) {
+                        Toggle(isOn: $settingsViewModel.isGroupingCategories) {
+                            Text("Group Categories")
+                        }
+
                         Button("Reset Product Data") {
                             showProductDataDeletionWarning = true
                         }

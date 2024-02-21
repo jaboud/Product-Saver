@@ -65,6 +65,7 @@ struct CategoriesView: View {
                             category.storedDatas = []
                             categoryName = ""
                             selectedCategories.insert(category.categoryName)
+                            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
                         }
                     }
                     .disabled(categoryName.isEmpty)
