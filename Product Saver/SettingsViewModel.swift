@@ -15,12 +15,23 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
+    @Published var isGroupingCategories: Bool = false {
+        didSet {
+            UserDefaults.standard.set(isGroupingCategories, forKey: "isGroupingCategories")
+        }
+    }
+
     init() {
         if UserDefaults.standard.object(forKey: "colorSchemeOption") == nil {
             self.colorSchemeOption = 0
         } else {
             self.colorSchemeOption = UserDefaults.standard.integer(forKey: "colorSchemeOption")
         }
+        if UserDefaults.standard.object(forKey: "isGroupingCategories") == nil {
+              self.isGroupingCategories = false
+          } else {
+              self.isGroupingCategories = UserDefaults.standard.bool(forKey: "isGroupingCategories")
+          }
     }
 
     func applyColorScheme(){

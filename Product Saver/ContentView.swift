@@ -35,7 +35,6 @@ extension SortOption {
     }
 }
 
-
 struct ContentView: View {
 
     @Environment(\.colorScheme) var colorScheme
@@ -57,6 +56,7 @@ struct ContentView: View {
             UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
         }
     }
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
 
     init() {
         if let storedSelectedCategories = UserDefaults.standard.array(forKey: "selectedCategories") as? [String] {
@@ -102,6 +102,43 @@ struct ContentView: View {
         return Array(uniqueCategories)
     }
 
+    func productListView(with data: [StoredData]) -> some View {
+        ForEach(data) { storedData in
+            NavigationLink(destination: ProductDetailView(storedData: storedData)) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Item Name")
+                            .foregroundStyle(.gray)
+                        Text(storedData.itemName)
+                        Text("Brand Name")
+                            .foregroundStyle(.gray)
+                        Text(storedData.brandName)
+                        Text("Category")
+                            .foregroundStyle(.gray)
+                        Text(storedData.category?.categoryName ?? "None")
+                    }
+                }
+                .swipeActions {
+                    Button(role: .destructive) {
+                        withAnimation {
+                            context.delete(storedData)
+                        }
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                            .symbolVariant(.fill)
+                    }
+
+                    Button {
+                        editStoredData = storedData
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                    .tint(.orange)
+                }
+            }
+        }
+    }
+
     var body: some View {
         TabView {
             NavigationStack {
@@ -114,43 +151,19 @@ struct ContentView: View {
                         ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
                     }
                     else {
-                        ForEach(filteredData) { storedData in
-                            NavigationLink(destination: ProductDetailView(storedData: storedData)) {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text("Item Name")
-                                            .foregroundStyle(.gray)
-                                        Text(storedData.itemName)
-                                        Text("Brand Name")
-                                            .foregroundStyle(.gray)
-                                        Text(storedData.brandName)
-                                        Text("Category")
-                                            .foregroundStyle(.gray)
-                                        Text(storedData.category?.categoryName ?? "None")
+                        if settingsViewModel.isGroupingCategories && searchQuery.isEmpty {
+                            ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
+                                Section(header: Text(category)) {
+                                    if category == "None" {
+                                        productListView(with: filteredData.filter { $0.category?.categoryName == nil })
+                                    } else {
+                                        productListView(with: filteredData.filter { $0.category?.categoryName == category })
                                     }
-                                }
-                                .swipeActions {
-                                    Button(role: .destructive) {
-                                        withAnimation {
-                                            context.delete(storedData)
-                                        }
-
-                                    } label: {
-                                        Label("Delete", systemImage: "trash")
-                                            .symbolVariant(.fill)
-                                    }
-
-                                    Button {
-                                        editStoredData = storedData
-                                    } label: {
-                                        Label("Edit", systemImage: "pencil")
-                                    }
-                                    .tint(.orange)
                                 }
                             }
-                        }
-
-                    }
+                        } else {
+                            productListView(with: filteredData)
+                        }                    }
                 }
                 .navigationTitle("Product Saver")
                 .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
@@ -168,8 +181,10 @@ struct ContentView: View {
                             }
                             Picker("", selection: $selectedSortOption) {
                                 ForEach(SortOption.allCases, id: \.rawValue) { option in
-                                    Label(option.rawValue.capitalized, systemImage: option.systemImage)
-                                        .tag(option)
+                                    if !(settingsViewModel.isGroupingCategories && option == .Category) {
+                                        Label(option.rawValue.capitalized, systemImage: option.systemImage)
+                                            .tag(option)
+                                    }
                                 }
                             }
                             .labelsHidden()
@@ -180,7 +195,6 @@ struct ContentView: View {
                     }
                 }
                 .toolbar {
-                    // ...
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu {
                             Section {
@@ -250,14 +264,13 @@ struct ContentView: View {
                     Image(systemName: "folder")
                     Text("Category")
                 }
-            SettingsView(settingsViewModel: SettingsViewModel())
+            SettingsView(settingsViewModel: settingsViewModel)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
         }
     }
-
 }
 
 
@@ -286,4 +299,5 @@ private extension [StoredData] {
 
 #Preview {
     ContentView()
+          .environmentObject(SettingsViewModel())
 }
