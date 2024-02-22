@@ -48,8 +48,7 @@ struct ContentView: View {
     @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
     @State private var searchQuery = ""
-    @State private var selectedSortOption = SortOption.allCases.first!
-    @AppStorage("sortOption") private var storedSortOption: SortOption = .Item
+    @AppStorage("selectedSortOption") private var selectedSortOption: SortOption = .RecentlyAdded
     @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @State private var selectedCategories: Set<String> = Set() {
         didSet {
