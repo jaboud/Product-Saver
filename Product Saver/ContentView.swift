@@ -281,14 +281,14 @@ private extension [StoredData] {
         case .Oldest:
             return self.sorted(by: { $0.id < $1.id })
         case .Item:
-            return self.sorted(by: { $0.itemName.localizedStandardCompare($1.itemName) == .orderedAscending })
+            return self.sorted(by: { $0.itemName.compare($1.itemName, options: .caseInsensitive) == .orderedAscending })
         case .Brand:
-            return self.sorted(by: { $0.brandName.localizedStandardCompare($1.brandName) == .orderedAscending })
+            return self.sorted(by: { $0.brandName.compare($1.brandName, options: .caseInsensitive) == .orderedAscending })
         case .Category:
             return self.sorted(by: {
-                guard let firstCategoryName = $0.category?.categoryName,
-                      let secondCategoryName = $1.category?.categoryName else { return false }
-                return firstCategoryName.localizedStandardCompare(secondCategoryName) == .orderedAscending
+                let firstCategoryName = $0.category?.categoryName ?? "None"
+                let secondCategoryName = $1.category?.categoryName ?? "None"
+                return firstCategoryName.compare(secondCategoryName, options: .caseInsensitive) == .orderedAscending
             })
         }
     }
