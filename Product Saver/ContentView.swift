@@ -273,8 +273,6 @@ struct ContentView: View {
     }
 }
 
-
-
 private extension [StoredData] {
 
     func sort(on option: SortOption) -> [StoredData] {
@@ -284,14 +282,14 @@ private extension [StoredData] {
         case .Oldest:
             return self.sorted(by: { $0.id < $1.id })
         case .Item:
-            return self.sorted(by: { $0.itemName < $1.itemName })
+            return self.sorted(by: { $0.itemName.localizedStandardCompare($1.itemName) == .orderedAscending })
         case .Brand:
-            return self.sorted(by: { $0.brandName < $1.brandName })
+            return self.sorted(by: { $0.brandName.localizedStandardCompare($1.brandName) == .orderedAscending })
         case .Category:
             return self.sorted(by: {
                 guard let firstCategoryName = $0.category?.categoryName,
                       let secondCategoryName = $1.category?.categoryName else { return false }
-                return firstCategoryName < secondCategoryName
+                return firstCategoryName.localizedStandardCompare(secondCategoryName) == .orderedAscending
             })
         }
     }
