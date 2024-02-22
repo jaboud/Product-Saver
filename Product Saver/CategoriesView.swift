@@ -8,18 +8,6 @@
 import SwiftUI
 import SwiftData
 
-@Model
-class Category {
-    @Attribute(.unique)
-
-    var categoryName: String
-    var storedDatas: [StoredData]?
-
-    init(categoryName: String = "") {
-        self.categoryName = categoryName
-    }
-}
-
 enum SortCategory: String, CaseIterable {
     case RecentlyAdded = "Recently Added"
     case Oldest
