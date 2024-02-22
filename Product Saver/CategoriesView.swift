@@ -40,6 +40,7 @@ struct CategoriesView: View {
     @State private var categoryName: String = ""
     @AppStorage("selectedSortCategory") private var selectedSortCategory: SortCategory = .RecentlyAdded
     @Binding var selectedCategories: Set<String>
+    @State private var showDuplicatedCategoryAlert = false
 
     var body: some View {
         NavigationStack{
@@ -48,15 +49,23 @@ struct CategoriesView: View {
                     TextField("Category Name", text: $categoryName)
                     Button("Add Category"){
                         withAnimation {
-                            let category = Category(categoryName: categoryName)
-                            context.insert(category)
-                            category.storedDatas = []
-                            categoryName = ""
-                            selectedCategories.insert(category.categoryName)
-                            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
+                            let lowercasedCategories = categories.map { $0.categoryName.lowercased() }
+                            if !lowercasedCategories.contains(categoryName.lowercased()) {
+                                let category = Category(categoryName: categoryName)
+                                context.insert(category)
+                                category.storedDatas = []
+                                categoryName = ""
+                                selectedCategories.insert(category.categoryName)
+                                UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
+                            } else {
+                                showDuplicatedCategoryAlert = true
+                            }
                         }
                     }
                     .disabled(categoryName.isEmpty)
+                    .alert(isPresented: $showDuplicatedCategoryAlert) {
+                        Alert(title: Text("Duplicate Category"), message: Text("'\(categoryName)' already exists."), dismissButton: .default(Text("OK")))
+                    }
                 }
                 Section("Categories") {
                     if categories.isEmpty {
