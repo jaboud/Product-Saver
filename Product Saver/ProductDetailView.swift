@@ -29,34 +29,27 @@ struct ProductDetailView: View {
                                 .foregroundColor(.gray)
                             Text(storedData.itemName.isEmpty ? "Mandatory item name is blank" : storedData.itemName)
                                 .foregroundColor(storedData.itemName.isEmpty ? .red : .primary)
-                        }
-                        VStack(alignment: .leading) {
+                            Divider()
                             Text("Brand Name")
                                 .foregroundColor(.gray)
                             Text(storedData.brandName.isEmpty ? "Mandatory brand name is blank" : storedData.brandName)
+                            Divider()
                                 .foregroundColor(storedData.brandName.isEmpty ? .red : .primary)
-                        }
-                        VStack(alignment: .leading) {
                             Text("Category")
                                 .foregroundColor(.gray)
                             Text(storedData.category?.categoryName ?? "None")
-                        }
-                        VStack(alignment: .leading) {
+                            Divider()
                             Text("Description")
                                 .foregroundColor(.gray)
                             Text(storedData.desc?.isEmpty == true ? "N/A" : storedData.desc ?? "N/A")
                                 .lineLimit(nil)
-                        }
-                        VStack(alignment: .leading) {
+                            Divider()
                             Text("Notes")
                                 .foregroundColor(.gray)
                             Text(storedData.notes?.isEmpty == true ? "N/A" : storedData.notes ?? "N/A")
                                 .lineLimit(nil)
                         }
-
                     }
-
-
                     Section(header: Text("Image")) {
                         if let selectedPhotoData = storedData.image,
                            let uiImage = UIImage(data: selectedPhotoData) {
@@ -126,7 +119,6 @@ struct ProductDetailView: View {
                             .interactiveDismissDisabled()
                     }
                 })
-                .padding()
                 .navigationTitle("Product Details")
                 .navigationBarTitleDisplayMode(.inline)
             }
