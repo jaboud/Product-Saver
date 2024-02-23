@@ -145,9 +145,9 @@ private extension CreateProductDetailsView {
 }
 
 #Preview {
-    let preview = PreviewContainer([StoredData.self])
-    return NavigationStack {
-       CreateProductDetailsView()
+    NavigationStack{
+        let preview = PreviewContainer(StoredData.self)
+        return CreateProductDetailsView()
             .modelContainer(preview.container)
     }
 }

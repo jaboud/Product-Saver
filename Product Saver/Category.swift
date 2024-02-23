@@ -19,3 +19,15 @@ class Category {
     }
 }
 
+extension Category {
+    static var sampleCategories: [Category] {
+        [
+            Category(categoryName: "Dairy"),
+            Category(categoryName: "Bakery"),
+            Category(categoryName: "Fruit and Vegetables"),
+            Category(categoryName: "Meat and Seafood"),
+            Category(categoryName: "Pantry"),
+            Category(categoryName: "Frozen")
+        ]
+    }
+}
