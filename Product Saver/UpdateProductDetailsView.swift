@@ -40,14 +40,14 @@ struct UpdateProductDetailsView: View {
                         Text("Update Description")
                             .foregroundColor(.gray)
                             .font(.subheadline)
-                        TextEditor(text: Binding(
+                        TextField("Description", text: Binding(
                             get: { self.storedData.desc ?? "" },
                             set: { self.storedData.desc = $0 }
                         ))
                         Text("Update Notes")
                             .foregroundColor(.gray)
                             .font(.subheadline)
-                        TextEditor(text: Binding(
+                        TextField("Notes", text: Binding(
                             get: { self.storedData.notes ?? "" },
                             set: { self.storedData.notes = $0 }
                         ))
@@ -138,7 +138,9 @@ struct UpdateProductDetailsView: View {
 }
 
 #Preview {
+    NavigationStack {
         let preview = PreviewContainer(StoredData.self)
         return UpdateProductDetailsView(storedData: StoredData.sampleProducts[4])
             .modelContainer(preview.container)
+    }
 }
