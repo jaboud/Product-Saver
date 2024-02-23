@@ -130,7 +130,9 @@ private extension [Category] {
 }
 
 #Preview {
-    NavigationStack {
-        CategoriesView(selectedCategories: .constant([]))
-    }
+        let preview = PreviewContainer(Category.self)
+        let selectedCategories = Binding.constant(Set<String>())
+        preview.addExamples(Category.sampleCategories)
+    return CategoriesView(selectedCategories: selectedCategories)
+            .modelContainer(preview.container)
 }

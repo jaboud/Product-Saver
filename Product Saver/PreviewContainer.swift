@@ -9,22 +9,23 @@ import Foundation
 import SwiftData
 
 struct PreviewContainer {
-    let container: ModelContainer!
-
-    init(_ types: [any PersistentModel.Type], 
-         isStoredForMemoryOnly: Bool = true) {
-
-
-        let schema = Schema(types)
-        let config = ModelConfiguration(isStoredInMemoryOnly: isStoredForMemoryOnly)
-        self.container = try! ModelContainer(for: schema, configurations: [config])
+    let container: ModelContainer
+    init(_ models: any PersistentModel.Type...) {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let schema = Schema(models)
+        do {
+            container = try ModelContainer(for: schema, configurations: config)
+        } catch {
+            fatalError("Could not create preview container")
+        }
     }
 
-    func add(storedData: [any PersistentModel]){
+    func addExamples(_ examples: [any PersistentModel]) {
         Task { @MainActor in
-            storedData.forEach{container.mainContext.insert($0)}
+            examples.forEach { example in
+                container.mainContext.insert(example)
+            }
         }
-
     }
 }
 

@@ -295,6 +295,9 @@ private extension [StoredData] {
 }
 
 #Preview {
-    ContentView()
-          .environmentObject(SettingsViewModel())
+    let preview = PreviewContainer(StoredData.self)
+    preview.addExamples(StoredData.sampleProducts)
+    return ContentView()
+        .modelContainer(preview.container)
+        .environmentObject(SettingsViewModel())
 }

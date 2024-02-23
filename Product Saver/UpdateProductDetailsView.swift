@@ -138,6 +138,7 @@ struct UpdateProductDetailsView: View {
 }
 
 #Preview {
-    let preview = PreviewContainer([StoredData.self])
-    return UpdateProductDetailsView(storedData: StoredData()).modelContainer(preview.container)
+        let preview = PreviewContainer(StoredData.self)
+        return UpdateProductDetailsView(storedData: StoredData.sampleProducts[4])
+            .modelContainer(preview.container)
 }
