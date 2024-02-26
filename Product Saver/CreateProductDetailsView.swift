@@ -18,6 +18,11 @@ struct CreateProductDetailsView: View {
     @State var selectedPhoto: PhotosPickerItem?
     @State private var storedData = StoredData()
     @State private var showValidationAlert = false
+    @State private var isCameraPresented = false
+    @State private var image: UIImage?
+    @State private var isActionSheetPresented = false
+    @State private var isPickerPresented = false
+
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -72,7 +77,7 @@ struct CreateProductDetailsView: View {
                     }
                 }
 
-                Section(header: Text("Image")) {
+                Section(header: Text("Photo")) {
                     if let selectedPhotoData = storedData.image,
                        let uiImage = UIImage(data: selectedPhotoData) {
                         Image(uiImage: uiImage)
@@ -81,9 +86,33 @@ struct CreateProductDetailsView: View {
                             .frame(maxWidth: .infinity, maxHeight: 300)
                     }
 
-                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
-                        Label("Upload Image", systemImage: "photo")
+                    Button(action: {
+                        isActionSheetPresented = true
+                    }) {
+                        if storedData.image != nil{
+                            Label("Re-upload Photo", systemImage: "camera")
+                        }
+                        else{
+                            Label("Upload Photo", systemImage: "camera")
+                        }
                     }
+                    .actionSheet(isPresented: $isActionSheetPresented) {
+                            ActionSheet(title: Text("Upload product photo"), buttons: [
+                                .default(Text("Take Photo")) {
+                                    isCameraPresented.toggle()
+                                },
+                                .default(Text("Choose Photo")) {
+                                    isPickerPresented.toggle()
+                                },
+                                .cancel()
+                            ])
+                        }
+
+                        .sheet(isPresented: $isCameraPresented) {
+                            CameraImage(imageData: $storedData.image)
+                        }
+
+                        .photosPicker(isPresented: $isPickerPresented, selection: $selectedPhoto)
 
                     if storedData.image != nil {
                         Button(role: .destructive) {
@@ -92,7 +121,7 @@ struct CreateProductDetailsView: View {
                                 storedData.image = nil
                             }
                         } label: {
-                            Label("Remove Image", systemImage: "xmark")
+                            Label("Remove Photo", systemImage: "xmark")
                                 .foregroundStyle(.red)
                         }
                     }
