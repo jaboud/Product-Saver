@@ -269,7 +269,7 @@ struct ContentView: View {
                 }
             SettingsView(settingsViewModel: settingsViewModel)
                 .tabItem {
-                    Image(systemName: "gear")
+                    Image(systemName: "gearshape")
                     Text("Settings")
                 }
         }
