@@ -50,7 +50,7 @@ struct SettingsView: View {
                         Toggle(isOn: $settingsViewModel.isGroupingCategories) {
                             Text("Group Categories")
                         }
-
+                        Divider()
                         Button("Reset Product Data") {
                             showProductDataDeletionWarning = true
                         }

@@ -103,36 +103,40 @@ struct ContentView: View {
 
     func productListView(with data: [StoredData]) -> some View {
         ForEach(data) { storedData in
-            NavigationLink(destination: ProductDetailView(storedData: storedData)) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("Item Name")
-                            .foregroundStyle(.gray)
-                        Text(storedData.itemName)
-                        Text("Brand Name")
-                            .foregroundStyle(.gray)
-                        Text(storedData.brandName)
-                        Text("Category")
-                            .foregroundStyle(.gray)
-                        Text(storedData.category?.categoryName ?? "None")
-                    }
-                }
-                .swipeActions {
-                    Button(role: .destructive) {
-                        withAnimation {
-                            context.delete(storedData)
+            Section {
+                NavigationLink(destination: ProductDetailView(storedData: storedData)) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Label("Item Name", systemImage: "tag")
+                                .foregroundColor(.gray)
+                            Text(storedData.itemName)
+                            Label("Brand Name", systemImage: "building")
+                                .foregroundStyle(.gray)
+                            Text(storedData.brandName)
+                            if !settingsViewModel.isGroupingCategories {
+                                Label("Category", systemImage: "folder")
+                                    .foregroundStyle(.gray)
+                                Text(storedData.category?.categoryName ?? "None")
+                            }
                         }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
-                            .symbolVariant(.fill)
                     }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                context.delete(storedData)
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                                .symbolVariant(.fill)
+                        }
 
-                    Button {
-                        editStoredData = storedData
-                    } label: {
-                        Label("Edit", systemImage: "pencil")
+                        Button {
+                            editStoredData = storedData
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.orange)
                     }
-                    .tint(.orange)
                 }
             }
         }
@@ -152,7 +156,7 @@ struct ContentView: View {
                     else {
                         if settingsViewModel.isGroupingCategories && searchQuery.isEmpty {
                             ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
-                                Section(header: Text(category)) {
+                                Section(header: Label(category, systemImage: "folder")) {
                                     if category == "None" {
                                         productListView(with: filteredData.filter { $0.category?.categoryName == nil })
                                     } else {
@@ -237,7 +241,7 @@ struct ContentView: View {
 
                 }
             }
-            .searchable(text: $searchQuery, prompt: "Filter by Item or Brand")
+            .searchable(text: $searchQuery, prompt: "Filter Product by Item or Brand")
             .sheet(isPresented: $showCreateDetailsView,
                    content: {
                 NavigationStack {

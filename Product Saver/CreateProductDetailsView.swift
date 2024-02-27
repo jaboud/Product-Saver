@@ -28,39 +28,36 @@ struct CreateProductDetailsView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Required *")
                 .foregroundColor(.gray)
-                .font(.footnote)
                 .padding(.leading, 15)
-
             List {
-                Section(header: Text("Product Details")) {
+                Section(header: Label("Product Details", systemImage: "info.circle")) {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Enter Item Name*")
+                        Label("Item Name*", systemImage: "tag")
                             .foregroundColor(.gray)
-                            .font(.subheadline)
-                        TextField("Item Name", text: $storedData.itemName)
-                        Text("Enter Brand Name*")
+                            TextField("Enter Item name...", text: $storedData.itemName)
+                        Divider()
+                        Label("Brand Name*", systemImage: "building")
                             .foregroundColor(.gray)
-                            .font(.subheadline)
-                        TextField("Brand Name", text: $storedData.brandName)
-                        Text("Enter Product Description")
-                                    .foregroundColor(.gray)
-                                    .font(.subheadline)
-                        TextField("Description", text: Binding(
-                            get: { self.storedData.desc ?? "" },
-                            set: { self.storedData.desc = $0 }
-                        ))
-                        .lineLimit(nil)
-                        Text("Enter Notes")
+                        TextField("Enter Brand name...", text: $storedData.brandName)
+                        Divider()
+                        Label("Description", systemImage: "doc.text")
                             .foregroundColor(.gray)
-                            .font(.subheadline)
-                        TextField("Notes", text: Binding(
-                            get: { self.storedData.notes ?? "" },
-                            set: { self.storedData.notes = $0 }
-                        ))
+                            TextField("Enter Product Description...", text: Binding(
+                                get: { self.storedData.desc ?? "" },
+                                set: { self.storedData.desc = $0 }
+                            ))
+                        Divider()
+                        Label("Notes", systemImage: "square.and.pencil")
+                            .foregroundColor(.gray)
+                            TextField("Enter Product Notes...", text: Binding(
+                                get: { self.storedData.notes ?? "" },
+                                set: { self.storedData.notes = $0 }
+                            ))
+                            .lineLimit(nil)
                     }
                 }
 
-                Section(header: Text("Category")) {
+                Section(header: Label("Category", systemImage: "folder")) {
                     if categories.isEmpty {
                         ContentUnavailableView("No Categories", systemImage: "archivebox")
                     } else {
@@ -77,7 +74,7 @@ struct CreateProductDetailsView: View {
                     }
                 }
 
-                Section(header: Text("Photo")) {
+                Section(header: Label("Photo", systemImage: "photo")) {
                     if let selectedPhotoData = storedData.image,
                        let uiImage = UIImage(data: selectedPhotoData) {
                         Image(uiImage: uiImage)
@@ -85,7 +82,9 @@ struct CreateProductDetailsView: View {
                             .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: 300)
                     }
+                }
 
+                Section(header: Label("Photo Options", systemImage: "camera")) {
                     Button(action: {
                         isActionSheetPresented = true
                     }) {
@@ -127,7 +126,7 @@ struct CreateProductDetailsView: View {
                     }
                 }
 
-                Button("Create") {
+                Button("Create Product") {
                     withAnimation {
                         if !storedData.itemName.isEmpty && !storedData.brandName.isEmpty {
                             save()
