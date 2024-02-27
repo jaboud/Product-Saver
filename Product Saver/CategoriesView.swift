@@ -45,7 +45,7 @@ struct CategoriesView: View {
     var body: some View {
         NavigationStack{
             List{
-                Section("Create Category") {
+                Section(header: Label("Create Category", systemImage: "folder.badge.plus")) {
                     TextField("Category Name", text: $categoryName)
                     Button("Add Category"){
                         withAnimation {
@@ -67,7 +67,7 @@ struct CategoriesView: View {
                         Alert(title: Text("Duplicate Category"), message: Text("'\(categoryName)' already exists."), dismissButton: .default(Text("OK")))
                     }
                 }
-                Section("Categories") {
+                Section(header: Label("Categories", systemImage: "folder")) {
                     if categories.isEmpty {
                         ContentUnavailableView("No Categories",
                                                systemImage: "archivebox")

@@ -23,34 +23,34 @@ struct ProductDetailView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
                 List {
-                    Section(header: Text("Product Information")) {
+                    Section(header: Label("Product Information", systemImage: "info.circle")) {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Item Name")
+                            Label("Item Name", systemImage: "tag")
                                 .foregroundColor(.gray)
                             Text(storedData.itemName.isEmpty ? "Mandatory item name is blank" : storedData.itemName)
                                 .foregroundColor(storedData.itemName.isEmpty ? .red : .primary)
                             Divider()
-                            Text("Brand Name")
+                            Label("Brand Name", systemImage: "building")
                                 .foregroundColor(.gray)
                             Text(storedData.brandName.isEmpty ? "Mandatory brand name is blank" : storedData.brandName)
                             Divider()
                                 .foregroundColor(storedData.brandName.isEmpty ? .red : .primary)
-                            Text("Category")
+                            Label("Category", systemImage: "folder")
                                 .foregroundColor(.gray)
                             Text(storedData.category?.categoryName ?? "None")
                             Divider()
-                            Text("Description")
+                            Label("Description", systemImage: "doc.text")
                                 .foregroundColor(.gray)
                             Text(storedData.desc?.isEmpty == true ? "N/A" : storedData.desc ?? "N/A")
                                 .lineLimit(nil)
                             Divider()
-                            Text("Notes")
+                            Label("Notes", systemImage: "square.and.pencil")
                                 .foregroundColor(.gray)
                             Text(storedData.notes?.isEmpty == true ? "N/A" : storedData.notes ?? "N/A")
                                 .lineLimit(nil)
                         }
                     }
-                    Section(header: Text("Image")) {
+                    Section(header: Label("Photo", systemImage: "photo")) {
                         if let selectedPhotoData = storedData.image,
                            let uiImage = UIImage(data: selectedPhotoData) {
                             Image(uiImage: uiImage)
@@ -86,7 +86,7 @@ struct ProductDetailView: View {
                         }
                     }
 
-                    Section(header: Text("Modify Product")) {
+                    Section(header: Label("Modify Product", systemImage: "pencil")) {
                         Button("Edit Product") {
                             withAnimation {
                                 editStoredData = storedData
