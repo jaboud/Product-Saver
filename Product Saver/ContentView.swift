@@ -25,9 +25,9 @@ extension SortOption {
         case .Oldest:
             "clock.arrow.2.circlepath"
         case .Item:
-            "tag.circle.fill"
+            "tag"
         case .Brand:
-            "building.2.fill"
+            "building"
         case .Category:
             "folder"
 
