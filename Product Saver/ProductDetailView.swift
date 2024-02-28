@@ -23,7 +23,7 @@ struct ProductDetailView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
                 List {
-                    Section(header: Label("Product Information", systemImage: "info.circle")) {
+                    Section(header: Label("Product Information", systemImage: "note.text")) {
                         VStack(alignment: .leading, spacing: 10) {
                             Label("Item Name", systemImage: "tag")
                                 .foregroundColor(.gray)
@@ -39,7 +39,7 @@ struct ProductDetailView: View {
                                 .foregroundColor(.gray)
                             Text(storedData.category?.categoryName ?? "None")
                             Divider()
-                            Label("Description", systemImage: "doc.text")
+                            Label("Description", systemImage: "doc.plaintext")
                                 .foregroundColor(.gray)
                             Text(storedData.desc?.isEmpty == true ? "N/A" : storedData.desc ?? "N/A")
                                 .lineLimit(nil)
