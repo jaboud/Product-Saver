@@ -30,7 +30,7 @@ struct CreateProductDetailsView: View {
                 .foregroundColor(.gray)
                 .padding(.leading, 15)
             List {
-                Section(header: Label("Product Details", systemImage: "info.circle")) {
+                Section(header: Label("Product Information", systemImage: "note.text")) {
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Item Name*", systemImage: "tag")
                             .foregroundColor(.gray)
@@ -40,7 +40,7 @@ struct CreateProductDetailsView: View {
                             .foregroundColor(.gray)
                         TextField("Enter Brand name...", text: $storedData.brandName)
                         Divider()
-                        Label("Description", systemImage: "doc.text")
+                        Label("Description", systemImage: "doc.plaintext")
                             .foregroundColor(.gray)
                             TextField("Enter Product Description...", text: Binding(
                                 get: { self.storedData.desc ?? "" },
