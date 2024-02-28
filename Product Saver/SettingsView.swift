@@ -25,27 +25,26 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Display")) {
+                Section(header: Label("Display", systemImage: "display")) {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Scheme Mode")
-                            .font(.body)
+                        VStack{
+                            Text("Colour Scheme")
+                            Picker(selection: $settingsViewModel.colorSchemeOption, label: Text("")) {
+                                Text("System").tag(0)
+                                Text("Light").tag(1)
+                                Text("Dark").tag(2)
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .background(Capsule()
+                                .foregroundColor(.blue))
+                            .padding(.horizontal, 8)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 5)
-                        Picker(selection: $settingsViewModel.colorSchemeOption, label: Text("")) {
-                            Text("System").tag(0)
-                            Text("Light").tag(1)
-                            Text("Dark").tag(2)
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .background(Capsule()
-                            .foregroundColor(.blue))
-                        .padding(.horizontal, 8)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 5)
-
                     }
                 }
 
-                Section(header: Text("Data")) {
+                Section(header: Label("Data", systemImage: "externaldrive")) {
                     VStack(alignment: .leading, spacing: 10) {
                         Toggle(isOn: $settingsViewModel.isGroupingCategories) {
                             Text("Group Categories")
@@ -136,10 +135,11 @@ struct SettingsView: View {
                         Text("This will permanently delete all saved Product data including brand names, item names, categories and uploaded images. Settings data is also reset back to default. Use this option if you want to start fresh.")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                            .padding(.bottom, 5)                    }
+                            .padding(.bottom, 5)
+                    }
                 }
 
-                Section(header: Text("About")) {
+                Section(header: Label("About", systemImage: "info.circle")) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Version: \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown")")
                             .font(.body)
@@ -161,25 +161,25 @@ struct SettingsView: View {
                     showProductDataDeletionConfirmation = false
                 }
             }
-            message: {
-                    Text("Product Data successfully deleted, includng saved images.")
-                }
-            .alert("Settings Data sucessfully deleted", isPresented: $showSettingsDataDeletionConfirmation) {
-                Button("OK") {
-                    showSettingsDataDeletionConfirmation = false
-                }
+        message: {
+            Text("Product Data successfully deleted, includng saved images.")
+        }
+        .alert("Settings Data sucessfully deleted", isPresented: $showSettingsDataDeletionConfirmation) {
+            Button("OK") {
+                showSettingsDataDeletionConfirmation = false
             }
-            message: {
-                    Text("Settings data has been reverted back to their original state.")
-                }
-            .alert("All data sucessfully deleted", isPresented: $showAllDataDeletionConfirmation){
-                Button("OK") {
-                    showAllDataDeletionConfirmation = false
-                }
+        }
+        message: {
+            Text("Settings data has been reverted back to their original state.")
+        }
+        .alert("All data sucessfully deleted", isPresented: $showAllDataDeletionConfirmation){
+            Button("OK") {
+                showAllDataDeletionConfirmation = false
             }
-            message: {
-                    Text("All data has been successfully deleted and settings has been reverted back to their original state.")
-                }
+        }
+        message: {
+            Text("All data has been successfully deleted and settings has been reverted back to their original state.")
+        }
         }
     }
 }
