@@ -27,8 +27,7 @@ struct SettingsView: View {
             List {
                 Section(header: Label("Display", systemImage: "display")) {
                     VStack(alignment: .leading, spacing: 10) {
-                        VStack{
-                            Text("Colour Scheme")
+                            Text("Appearance")
                             Picker(selection: $settingsViewModel.colorSchemeOption, label: Text("")) {
                                 Text("System").tag(0)
                                 Text("Light").tag(1)
@@ -36,11 +35,21 @@ struct SettingsView: View {
                             }
                             .pickerStyle(SegmentedPickerStyle())
                             .background(Capsule()
-                                .foregroundColor(.blue))
-                            .padding(.horizontal, 8)
+                                .foregroundColor(settingsViewModel.tintColors))
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 5)
+                            .padding(.bottom, 1)
+                        Divider()
+                        Picker("Tint Color", selection: $settingsViewModel.tintColor) {
+                            Text("Default").tag(0)
+                            Text("Green").tag(1)
+                            Text("Red").tag(2)
+                            Text("Orange").tag(3)
+                            Text("Pink").tag(4)
+                            Text("Purple").tag(5)
                         }
+                        .pickerStyle(MenuPickerStyle())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 5)
                     }
                 }
 
@@ -49,12 +58,13 @@ struct SettingsView: View {
                         Toggle(isOn: $settingsViewModel.isGroupingCategories) {
                             Text("Group Categories")
                         }
+                        .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
                         Divider()
                         Button("Reset Product Data") {
                             showProductDataDeletionWarning = true
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .foregroundColor(.red)
+                        .foregroundColor(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
                         .actionSheet(isPresented: $showProductDataDeletionWarning) {
                             ActionSheet(
                                 title: Text("Warning"),
@@ -81,7 +91,7 @@ struct SettingsView: View {
                         Button("Reset Settings Data") {
                             showSettingsDataDeletionWarning = true
                         }
-                        .foregroundColor(.red)
+                        .foregroundColor(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
                         .buttonStyle(PlainButtonStyle())
                         .actionSheet(isPresented: $showSettingsDataDeletionWarning) {
                             ActionSheet(
@@ -91,6 +101,8 @@ struct SettingsView: View {
                                     .destructive(Text("Delete")) {
                                         withAnimation {
                                             settingsViewModel.colorSchemeOption = 0
+                                            settingsViewModel.isGroupingCategories = false
+                                            settingsViewModel.tintColor = 0
                                             showSettingsDataDeletionConfirmation = true
                                         }
                                     },
@@ -108,7 +120,7 @@ struct SettingsView: View {
                         Button("Reset All Data") {
                             showAllDataDeletionWarning = true
                         }
-                        .foregroundColor(.red)
+                        .foregroundColor(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
                         .buttonStyle(PlainButtonStyle())
                         .actionSheet(isPresented: $showAllDataDeletionWarning) {
                             ActionSheet(
@@ -124,6 +136,8 @@ struct SettingsView: View {
                                                 context.delete(category)
                                             }
                                             settingsViewModel.colorSchemeOption = 0
+                                            settingsViewModel.isGroupingCategories = false
+                                            settingsViewModel.tintColor = 0
                                             showAllDataDeletionConfirmation = true
                                         }
                                     },
@@ -149,13 +163,17 @@ struct SettingsView: View {
                             .font(.body)
                             .padding(.bottom, 5)
                         Divider()
-                        Text("Contact: justin.aboud@icloud.com")
+                        Text("Contact: ")
                             .font(.body)
-                            .padding(.bottom, 5)
+                            + Text("justin.aboud@icloud.com")
+                            .foregroundColor(settingsViewModel.tintColors)
+                            .font(.body)
+
                     }
                 }
             }
             .navigationTitle("Settings")
+            .accentColor(settingsViewModel.tintColors)
             .alert("Product Data sucessfully deleted", isPresented: $showProductDataDeletionConfirmation){
                 Button("OK") {
                     showProductDataDeletionConfirmation = false

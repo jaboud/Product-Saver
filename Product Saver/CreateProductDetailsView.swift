@@ -13,6 +13,7 @@ struct CreateProductDetailsView: View {
 
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
@@ -71,6 +72,7 @@ struct CreateProductDetailsView: View {
                         }
                         .labelsHidden()
                         .pickerStyle(.inline)
+                        .accentColor(settingsViewModel.tintColors)
                     }
                 }
 
@@ -95,6 +97,7 @@ struct CreateProductDetailsView: View {
                             Label("Upload Photo", systemImage: "camera")
                         }
                     }
+                    .foregroundStyle(settingsViewModel.tintColors)
                     .actionSheet(isPresented: $isActionSheetPresented) {
                             ActionSheet(title: Text("Upload product photo"), buttons: [
                                 .default(Text("Take Photo")) {
@@ -121,7 +124,7 @@ struct CreateProductDetailsView: View {
                             }
                         } label: {
                             Label("Remove Photo", systemImage: "xmark")
-                                .foregroundStyle(.red)
+                                .foregroundStyle(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
                         }
                     }
                 }
@@ -136,6 +139,7 @@ struct CreateProductDetailsView: View {
                         }
                     }
                 }
+                .foregroundStyle(settingsViewModel.tintColors)
                 .alert(isPresented: $showValidationAlert) {
                     Alert(title: Text("Missing required details"), message: Text("Please enter both item name and brand name."), dismissButton: .default(Text("OK")))
                 }
@@ -147,6 +151,7 @@ struct CreateProductDetailsView: View {
                 Button("Cancel") {
                     dismiss()
                 }
+                .foregroundStyle(settingsViewModel.tintColors)
             }
         }
         .task(id: selectedPhoto) {
@@ -177,5 +182,6 @@ private extension CreateProductDetailsView {
         let preview = PreviewContainer(StoredData.self)
         return CreateProductDetailsView()
             .modelContainer(preview.container)
+            .environmentObject(SettingsViewModel())
     }
 }

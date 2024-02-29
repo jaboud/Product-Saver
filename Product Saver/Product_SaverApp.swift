@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct Product_SaverApp: App {
-    @State private var settingsViewModel = SettingsViewModel()
+    @StateObject private var settingsViewModel = SettingsViewModel()
 
 
     var body: some Scene {
@@ -22,6 +22,7 @@ struct Product_SaverApp: App {
                     settingsViewModel.applyColorScheme()
                     UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
                 }
+                .accentColor(settingsViewModel.tintColors)
         }
     }
 }
