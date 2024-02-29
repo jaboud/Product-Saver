@@ -14,6 +14,7 @@ struct UpdateProductDetailsView: View {
     @Bindable var storedData: StoredData
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
@@ -95,6 +96,7 @@ struct UpdateProductDetailsView: View {
                             Label("Upload Photo", systemImage: "camera")
                         }
                     }
+                    .foregroundStyle(settingsViewModel.tintColors)
                     .actionSheet(isPresented: $isActionSheetPresented) {
                             ActionSheet(title: Text("Upload product photo"), buttons: [
                                 .default(Text("Take Photo")) {
@@ -121,7 +123,7 @@ struct UpdateProductDetailsView: View {
                             }
                         } label: {
                             Label("Remove Photo", systemImage: "xmark")
-                                .foregroundStyle(.red)
+                                .foregroundStyle(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
                         }
                     }
                 }
@@ -136,6 +138,7 @@ struct UpdateProductDetailsView: View {
                         }
                     }
                 }
+                .foregroundStyle(settingsViewModel.tintColors)
                 .alert(isPresented: $showValidationAlert) {
                     Alert(title: Text("Missing required details"), message: Text("Please enter both item name and brand name."), dismissButton: .default(Text("OK")))
                 }
@@ -155,6 +158,7 @@ struct UpdateProductDetailsView: View {
                 Button("Cancel") {
                     dismiss()
                 }
+                .foregroundStyle(settingsViewModel.tintColors)
             }
         }
     }
@@ -166,5 +170,6 @@ struct UpdateProductDetailsView: View {
         let preview = PreviewContainer(StoredData.self)
         return UpdateProductDetailsView(storedData: StoredData.sampleProducts[4])
             .modelContainer(preview.container)
+            .environmentObject(SettingsViewModel())
     }
 }

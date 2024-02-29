@@ -11,6 +11,7 @@ import SwiftData
 struct ProductDetailView: View {
     var storedData: StoredData
     @Environment(\.modelContext) var context
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     @State private var isFullScreen = false
     @State private var lastOffset: CGSize = .zero
     @State private var scale: CGFloat = 1.0
@@ -92,10 +93,11 @@ struct ProductDetailView: View {
                                 editStoredData = storedData
                             }
                         }
+                        .foregroundColor(settingsViewModel.tintColors)
                         Button("Delete Product") {
                             confirmProductDeletion = true
                         }
-                        .foregroundStyle(.red)
+                        .foregroundStyle(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
                         .alert(isPresented: $confirmProductDeletion) {
                             Alert(title: Text("Delete Product"),
                                   message: Text("Are you sure you want to delete this product?"),
@@ -130,4 +132,5 @@ struct ProductDetailView: View {
     let preview = PreviewContainer(StoredData.self)
     return ProductDetailView(storedData: StoredData.sampleProducts[4])
         .modelContainer(preview.container)
+        .environmentObject(SettingsViewModel())
 }

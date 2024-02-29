@@ -21,6 +21,31 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
+    @Published var tintColor: Int {
+        didSet {
+            UserDefaults.standard.set(tintColor, forKey: "tintColor")
+        }
+    }
+
+    var tintColors: Color {
+        switch tintColor {
+        case 0:
+            return Color.blue
+        case 1:
+            return Color.green
+        case 2:
+            return Color.red
+        case 3:
+            return Color.orange
+        case 4:
+            return Color.pink
+        case 5:
+            return Color.purple
+        default:
+            return Color.blue
+        }
+    }
+
     init() {
         if UserDefaults.standard.object(forKey: "colorSchemeOption") == nil {
             self.colorSchemeOption = 0
@@ -32,6 +57,8 @@ class SettingsViewModel: ObservableObject {
           } else {
               self.isGroupingCategories = UserDefaults.standard.bool(forKey: "isGroupingCategories")
           }
+
+        self.tintColor = UserDefaults.standard.integer(forKey: "themeColor")
     }
 
     func applyColorScheme(){
@@ -40,11 +67,11 @@ class SettingsViewModel: ObservableObject {
         }
 
         switch colorSchemeOption {
-        case 0: // Defaultz
+        case 0:
             windowScene.windows.first?.overrideUserInterfaceStyle = .unspecified
-        case 1: // Light Mode
+        case 1:
             windowScene.windows.first?.overrideUserInterfaceStyle = .light
-        case 2: // Dark Mode
+        case 2:
             windowScene.windows.first?.overrideUserInterfaceStyle = .dark
         default:
             break
