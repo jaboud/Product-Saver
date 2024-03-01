@@ -27,6 +27,12 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
+    @Published var isHidingBlankData: Bool = true {
+        didSet {
+            UserDefaults.standard.set(isHidingBlankData, forKey: "isHidingBlankData")
+        }
+    }
+
     var tintColors: Color {
         switch tintColor {
         case 0:
@@ -58,7 +64,14 @@ class SettingsViewModel: ObservableObject {
               self.isGroupingCategories = UserDefaults.standard.bool(forKey: "isGroupingCategories")
           }
 
-        self.tintColor = UserDefaults.standard.integer(forKey: "themeColor")
+        self.tintColor = UserDefaults.standard.integer(forKey: "tintColor")
+
+
+        if UserDefaults.standard.object(forKey: "isHidingBlankData") == nil {
+            self.isHidingBlankData = true
+        } else {
+            self.isHidingBlankData = UserDefaults.standard.bool(forKey: "isHidingBlankData")
+        }
     }
 
     func applyColorScheme(){
@@ -77,6 +90,4 @@ class SettingsViewModel: ObservableObject {
             break
         }
     }
-
 }
-
