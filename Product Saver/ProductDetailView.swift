@@ -40,15 +40,20 @@ struct ProductDetailView: View {
                                 .foregroundColor(.gray)
                             Text(storedData.category?.categoryName ?? "None")
                             Divider()
-                            Label("Description", systemImage: "doc.plaintext")
-                                .foregroundColor(.gray)
-                            Text(storedData.desc?.isEmpty == true ? "N/A" : storedData.desc ?? "N/A")
-                                .lineLimit(nil)
-                            Divider()
-                            Label("Notes", systemImage: "square.and.pencil")
-                                .foregroundColor(.gray)
-                            Text(storedData.notes?.isEmpty == true ? "N/A" : storedData.notes ?? "N/A")
-                                .lineLimit(nil)
+                            if !(storedData.desc?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
+                                Label("Description", systemImage: "doc.plaintext")
+                                    .foregroundColor(.gray)
+                                Text((storedData.desc?.isEmpty == true) ? "N/A" : (storedData.desc ?? "N/A"))
+                                    .lineLimit(nil)
+                                Divider()
+                            }
+                            if !(storedData.notes?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
+                                Label("Notes", systemImage: "square.and.pencil")
+                                    .foregroundColor(.gray)
+                                Text((storedData.notes?.isEmpty == true) ? "N/A" : (storedData.notes ?? "N/A"))
+                                Text(storedData.notes ?? "")
+                                    .lineLimit(nil)
+                            }
                         }
                     }
                     Section(header: Label("Photo", systemImage: "photo")) {

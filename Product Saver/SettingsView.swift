@@ -53,13 +53,22 @@ struct SettingsView: View {
                     }
                 }
 
-                Section(header: Label("Data", systemImage: "externaldrive")) {
+                Section(header: Label("Content", systemImage: "list.bullet.rectangle")) {
                     VStack(alignment: .leading, spacing: 10) {
                         Toggle(isOn: $settingsViewModel.isGroupingCategories) {
                             Text("Group Categories")
                         }
                         .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
                         Divider()
+                        Toggle(isOn: $settingsViewModel.isHidingBlankData) {
+                            Text("Hide Blank Data")
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
+                    }
+                }
+
+                Section(header: Label("Data", systemImage: "externaldrive")) {
+                    VStack(alignment: .leading, spacing: 10) {
                         Button("Reset Product Data") {
                             showProductDataDeletionWarning = true
                         }
