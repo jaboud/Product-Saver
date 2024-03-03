@@ -18,10 +18,12 @@ struct Product_SaverApp: App {
             ContentView()
                 .modelContainer(for: StoredData.self)
                 .environmentObject(settingsViewModel)
+                .onAppear(){
+                    UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
+                }
                 .accentColor(settingsViewModel.tintColors)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     settingsViewModel.applyColorScheme()
-                    UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
                 }
         }
     }
