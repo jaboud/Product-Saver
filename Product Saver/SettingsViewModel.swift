@@ -47,17 +47,16 @@ class SettingsViewModel: ObservableObject {
             return Color.pink
         case 5:
             return Color.purple
+        case 6:
+            return Color.yellow
         default:
             return Color.blue
         }
     }
 
     init() {
-        if UserDefaults.standard.object(forKey: "colorSchemeOption") == nil {
-            self.colorSchemeOption = 0
-        } else {
-            self.colorSchemeOption = UserDefaults.standard.integer(forKey: "colorSchemeOption")
-        }
+        self.colorSchemeOption = UserDefaults.standard.integer(forKey: "colorSchemeOption")
+        
         if UserDefaults.standard.object(forKey: "isGroupingCategories") == nil {
               self.isGroupingCategories = false
           } else {
