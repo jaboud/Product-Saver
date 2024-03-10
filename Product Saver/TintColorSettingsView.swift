@@ -14,7 +14,7 @@ struct TintColorSettingsView: View {
     var body: some View {
         NavigationStack {
             List{
-                Section(footer: Text("Some options may be hidden based on the selected color scheme.")) {
+                Section(footer: Text("Some options may be hidden based on the selected color scheme. The default color will be selected if the selected color is not available in the current scheme.")) {
                     Picker("Tint Color", selection: $settingsViewModel.tintColor) {
                         HStack {
                             Image(systemName: "circle.fill")
@@ -61,13 +61,13 @@ struct TintColorSettingsView: View {
                             .tag(6)
                         }
                     }
+                    .pickerStyle(.inline)
+                    .labelsHidden()
                     .onChange(of: colorScheme) {
-                        if colorScheme == .light {
+                        if colorScheme == .light && settingsViewModel.tintColor == 6 {
                             settingsViewModel.tintColor = 0
                         }
                     }
-                    .pickerStyle(.inline)
-                    .labelsHidden()
                 }
             }
             .navigationTitle("Tint Color")
