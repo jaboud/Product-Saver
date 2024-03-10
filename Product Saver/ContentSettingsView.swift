@@ -12,7 +12,7 @@ struct ContentSettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(footer: Text("When enabled, categories will be grouped together with the list of products.")) {
+                Section(footer: Text("When enabled, categories will be grouped together with the list of products. Filtering Categories will be disabled when this option is enabled.")) {
                     Toggle(isOn: $settingsViewModel.isGroupingCategories) {
                         Text("Group Categories")
                     }
