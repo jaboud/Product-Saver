@@ -31,9 +31,9 @@ struct AppearanceSettingsView: View {
                         Label("Tint Color", systemImage: "paintpalette")
                     }
                 }
-                .navigationTitle("Appearance")
-                .navigationBarTitleDisplayMode(.inline)
             }
+            .navigationTitle("Appearance")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
