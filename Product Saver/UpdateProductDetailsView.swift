@@ -11,7 +11,7 @@ import PhotosUI
 
 struct UpdateProductDetailsView: View {
 
-    @Bindable var storedData: StoredData
+    @Bindable var storedProduct: StoredProduct
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var settingsViewModel: SettingsViewModel
@@ -35,24 +35,24 @@ struct UpdateProductDetailsView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Item Name*", systemImage: "tag")
                             .foregroundColor(.gray)
-                            TextField("Enter Item name...", text: $storedData.itemName)
+                            TextField("Enter Item name...", text: $storedProduct.itemName)
                         Divider()
                         Label("Brand Name*", systemImage: "building")
                             .foregroundColor(.gray)
-                        TextField("Enter Brand name...", text: $storedData.brandName)
+                        TextField("Enter Brand name...", text: $storedProduct.brandName)
                         Divider()
                         Label("Description", systemImage: "doc.plaintext")
                             .foregroundColor(.gray)
                             TextField("Enter Product Description...", text: Binding(
-                                get: { self.storedData.desc ?? "" },
-                                set: { self.storedData.desc = $0 }
+                                get: { self.storedProduct.desc ?? "" },
+                                set: { self.storedProduct.desc = $0 }
                             ))
                         Divider()
                         Label("Notes", systemImage: "square.and.pencil")
                             .foregroundColor(.gray)
                             TextField("Enter Product Notes...", text: Binding(
-                                get: { self.storedData.notes ?? "" },
-                                set: { self.storedData.notes = $0 }
+                                get: { self.storedProduct.notes ?? "" },
+                                set: { self.storedProduct.notes = $0 }
                             ))
                             .lineLimit(nil)
                     }
@@ -76,7 +76,7 @@ struct UpdateProductDetailsView: View {
                 }
 
                 Section(header: Label("Photo", systemImage: "photo")) {
-                    if let selectedPhotoData = storedData.image,
+                    if let selectedPhotoData = storedProduct.image,
                        let uiImage = UIImage(data: selectedPhotoData) {
                         Image(uiImage: uiImage)
                             .resizable()
@@ -89,7 +89,7 @@ struct UpdateProductDetailsView: View {
                     Button(action: {
                         isActionSheetPresented = true
                     }) {
-                        if storedData.image != nil{
+                        if storedProduct.image != nil{
                             Label("Re-upload Photo", systemImage: "camera")
                         }
                         else{
@@ -110,16 +110,16 @@ struct UpdateProductDetailsView: View {
                         }
 
                         .sheet(isPresented: $isCameraPresented) {
-                            CameraImage(imageData: $storedData.image)
+                            CameraImage(imageData: $storedProduct.image)
                         }
 
                         .photosPicker(isPresented: $isPickerPresented, selection: $selectedPhoto)
 
-                    if storedData.image != nil {
+                    if storedProduct.image != nil {
                         Button(role: .destructive) {
                             withAnimation {
                                 selectedPhoto = nil
-                                storedData.image = nil
+                                storedProduct.image = nil
                             }
                         } label: {
                             Label("Remove Photo", systemImage: "xmark")
@@ -130,8 +130,8 @@ struct UpdateProductDetailsView: View {
 
                 Button("Update Product") {
                     withAnimation {
-                        if !storedData.itemName.isEmpty && !storedData.brandName.isEmpty {
-                            storedData.category = selectedCategory
+                        if !storedProduct.itemName.isEmpty && !storedProduct.brandName.isEmpty {
+                            storedProduct.category = selectedCategory
                             dismiss()
                         } else {
                             showValidationAlert = true
@@ -146,11 +146,11 @@ struct UpdateProductDetailsView: View {
         }
         .navigationTitle("Update Product Details")
         .onAppear(perform: {
-            selectedCategory = storedData.category
+            selectedCategory = storedProduct.category
         })
         .task(id: selectedPhoto) {
             if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
-                storedData.image = data
+                storedProduct.image = data
             }
         }
         .toolbar {
@@ -167,8 +167,8 @@ struct UpdateProductDetailsView: View {
 
 #Preview {
     NavigationStack {
-        let preview = PreviewContainer(StoredData.self)
-        return UpdateProductDetailsView(storedData: StoredData.sampleProducts[4])
+        let preview = PreviewContainer(StoredProduct.self)
+        return UpdateProductDetailsView(storedProduct: StoredProduct.sampleProducts[4])
             .modelContainer(preview.container)
             .environmentObject(SettingsViewModel())
     }

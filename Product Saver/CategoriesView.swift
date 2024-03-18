@@ -53,7 +53,7 @@ struct CategoriesView: View {
                             if !lowercasedCategories.contains(categoryName.lowercased()) {
                                 let category = Category(categoryName: categoryName)
                                 context.insert(category)
-                                category.storedDatas = []
+                                category.storedProducts = []
                                 categoryName = ""
                                 selectedCategories.insert(category.categoryName)
                                 UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")

@@ -10,7 +10,7 @@ import SwiftData
 
 struct DataSettingsView: View {
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @Query private var storedDatas: [StoredData]
+    @Query private var storedProducts: [StoredProduct]
     @Query private var categories: [Category]
     @Environment(\.modelContext) var context
     @State private var showAllDataDeletionConfirmation = false
@@ -36,7 +36,7 @@ struct DataSettingsView: View {
                             buttons: [
                                 .destructive(Text("Delete")) {
                                     withAnimation {
-                                        for data in storedDatas {
+                                        for data in storedProducts {
                                             context.delete(data)
                                         }
                                         showProductDataDeletionConfirmation = true
@@ -86,7 +86,7 @@ struct DataSettingsView: View {
                             buttons: [
                                 .destructive(Text("Delete")) {
                                     withAnimation {
-                                        for data in storedDatas {
+                                        for data in storedProducts {
                                             context.delete(data)
                                         }
                                         for category in categories {

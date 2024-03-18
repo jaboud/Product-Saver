@@ -17,7 +17,7 @@ struct Product_SaverApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: StoredData.self)
+                .modelContainer(for: StoredProduct.self)
                 .environmentObject(settingsViewModel)
                 .onAppear(){
                     UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
