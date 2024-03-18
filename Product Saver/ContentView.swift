@@ -39,10 +39,10 @@ struct ContentView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
-    @Query private var storedDatas: [StoredData]
+    @Query private var storedProducts: [StoredProduct]
     @State private var showCreateDetailsView = false
     @State private var showCreateCategoryView = false
-    @State private var editStoredData: StoredData?
+    @State private var editStoredProduct: StoredProduct?
     @State private var isFullScreen = false
     @State private var lastOffset: CGSize = .zero
     @State private var scale: CGFloat = 1.0
@@ -68,21 +68,21 @@ struct ContentView: View {
         }
     }
 
-    var filteredData: [StoredData] {
-        var data = storedDatas
+    var filteredData: [StoredProduct] {
+        var data = storedProducts
 
         if !searchQuery.isEmpty {
-            data = data.compactMap { storedData in
-                let itemContainsQuery = storedData.itemName.range(of: searchQuery, options: .caseInsensitive) != nil
-                let brandContainsQuery = storedData.brandName.range(of: searchQuery, options: .caseInsensitive) != nil
+            data = data.compactMap { storedProduct in
+                let itemContainsQuery = storedProduct.itemName.range(of: searchQuery, options: .caseInsensitive) != nil
+                let brandContainsQuery = storedProduct.brandName.range(of: searchQuery, options: .caseInsensitive) != nil
 
-                return (itemContainsQuery || brandContainsQuery) ? storedData : nil
+                return (itemContainsQuery || brandContainsQuery) ? storedProduct : nil
             }
         }
 
         if !selectedCategories.isEmpty {
-            data = data.filter { storedData in
-                guard let category = storedData.category?.categoryName else {
+            data = data.filter { storedProduct in
+                guard let category = storedProduct.category?.categoryName else {
                     return selectedCategories.contains("None")
                 }
                 return selectedCategories.contains(category)
@@ -93,37 +93,37 @@ struct ContentView: View {
     }
 
     var allCategories: [String] {
-        var categories = storedDatas.compactMap { $0.category?.categoryName }
-        if storedDatas.contains(where: { $0.category?.categoryName == nil }) {
+        var categories = storedProducts.compactMap { $0.category?.categoryName }
+        if storedProducts.contains(where: { $0.category?.categoryName == nil }) {
             categories.append("None")
         }
         let uniqueCategories = Set(categories)
         return Array(uniqueCategories)
     }
 
-    func productListView(with data: [StoredData]) -> some View {
-        ForEach(data) { storedData in
+    func productListView(with data: [StoredProduct]) -> some View {
+        ForEach(data) { storedProduct in
             Section {
-                NavigationLink(destination: ProductDetailView(storedData: storedData)) {
+                NavigationLink(destination: ProductDetailView(storedProduct: storedProduct)) {
                     HStack {
                         VStack(alignment: .leading, spacing: 10) {
                             Label("Item Name", systemImage: "tag")
                                 .foregroundColor(.gray)
-                            Text(storedData.itemName)
+                            Text(storedProduct.itemName)
                             Label("Brand Name", systemImage: "building")
                                 .foregroundStyle(.gray)
-                            Text(storedData.brandName)
+                            Text(storedProduct.brandName)
                             if !settingsViewModel.isGroupingCategories {
                                 Label("Category", systemImage: "folder")
                                     .foregroundStyle(.gray)
-                                Text(storedData.category?.categoryName ?? "None")
+                                Text(storedProduct.category?.categoryName ?? "None")
                             }
                         }
                     }
                     .swipeActions {
                         Button(role: .destructive) {
                             withAnimation {
-                                context.delete(storedData)
+                                context.delete(storedProduct)
                             }
                         } label: {
                             Label("Delete", systemImage: "trash")
@@ -131,7 +131,7 @@ struct ContentView: View {
                         }
 
                         Button {
-                            editStoredData = storedData
+                            editStoredProduct = storedProduct
                         } label: {
                             Label("Edit", systemImage: "pencil")
                         }
@@ -146,7 +146,7 @@ struct ContentView: View {
         TabView {
             NavigationStack {
                 List {
-                    if storedDatas.isEmpty {
+                    if storedProducts.isEmpty {
                         ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
                                                systemImage: "archivebox")
                     }
@@ -171,7 +171,7 @@ struct ContentView: View {
                 .navigationTitle("Product Saver")
                 .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
                 .overlay {
-                    if !searchQuery.isEmpty && filteredData.isEmpty && !storedDatas.isEmpty {
+                    if !searchQuery.isEmpty && filteredData.isEmpty && !storedProducts.isEmpty {
                         ContentUnavailableView.search
                     }
                 }
@@ -248,13 +248,13 @@ struct ContentView: View {
                     CreateProductDetailsView()
                 }
             })
-            .sheet(item: $editStoredData,
+            .sheet(item: $editStoredProduct,
                    onDismiss: {
-                editStoredData = nil
+                editStoredProduct = nil
             },
                    content: { editData in
                 NavigationStack {
-                    UpdateProductDetailsView(storedData: editData)
+                    UpdateProductDetailsView(storedProduct: editData)
                         .interactiveDismissDisabled()
                 }
             })
@@ -276,9 +276,9 @@ struct ContentView: View {
     }
 }
 
-private extension [StoredData] {
+private extension [StoredProduct] {
 
-    func sort(on option: SortOption) -> [StoredData] {
+    func sort(on option: SortOption) -> [StoredProduct] {
         switch option {
         case .RecentlyAdded:
             return self.sorted(by: { $0.id > $1.id })
@@ -299,8 +299,8 @@ private extension [StoredData] {
 }
 
 #Preview {
-    let preview = PreviewContainer(StoredData.self)
-    preview.addExamples(StoredData.sampleProducts)
+    let preview = PreviewContainer(StoredProduct.self)
+    preview.addExamples(StoredProduct.sampleProducts)
     return ContentView()
         .modelContainer(preview.container)
         .environmentObject(SettingsViewModel())

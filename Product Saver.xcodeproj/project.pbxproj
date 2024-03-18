@@ -16,7 +16,7 @@
 		D06A52032B55555D00312716 /* Product_SaverApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52022B55555D00312716 /* Product_SaverApp.swift */; };
 		D06A52052B55555D00312716 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52042B55555D00312716 /* ContentView.swift */; };
 		D06A520A2B55555F00312716 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06A52092B55555F00312716 /* Preview Assets.xcassets */; };
-		D06A52132B55558100312716 /* StoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52122B55558100312716 /* StoredData.swift */; };
+		D06A52132B55558100312716 /* StoredProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52122B55558100312716 /* StoredProduct.swift */; };
 		D06A52152B55563A00312716 /* CreateProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52142B55563A00312716 /* CreateProductDetailsView.swift */; };
 		D06A52172B55602B00312716 /* UpdateProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */; };
 		D07B653F2B5E3A6600C09132 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B653E2B5E3A6600C09132 /* SettingsViewModel.swift */; };
@@ -38,7 +38,7 @@
 		D06A52022B55555D00312716 /* Product_SaverApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product_SaverApp.swift; sourceTree = "<group>"; };
 		D06A52042B55555D00312716 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D06A52092B55555F00312716 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D06A52122B55558100312716 /* StoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredData.swift; sourceTree = "<group>"; };
+		D06A52122B55558100312716 /* StoredProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredProduct.swift; sourceTree = "<group>"; };
 		D06A52142B55563A00312716 /* CreateProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductDetailsView.swift; sourceTree = "<group>"; };
 		D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductDetailsView.swift; sourceTree = "<group>"; };
 		D07B653E2B5E3A6600C09132 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 				D06A52022B55555D00312716 /* Product_SaverApp.swift */,
 				D06A52042B55555D00312716 /* ContentView.swift */,
 				D06A52082B55555F00312716 /* Preview Content */,
-				D06A52122B55558100312716 /* StoredData.swift */,
+				D06A52122B55558100312716 /* StoredProduct.swift */,
 				D06A52142B55563A00312716 /* CreateProductDetailsView.swift */,
 				D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */,
 				D02AFCBF2B56188200BD3C9B /* CategoriesView.swift */,
@@ -190,7 +190,7 @@
 				D04CE4622B8CA22800CE612E /* CameraImage.swift in Sources */,
 				D03C891E2B772D6100068EFD /* PreviewContainer.swift in Sources */,
 				D06A52172B55602B00312716 /* UpdateProductDetailsView.swift in Sources */,
-				D06A52132B55558100312716 /* StoredData.swift in Sources */,
+				D06A52132B55558100312716 /* StoredProduct.swift in Sources */,
 				D06A52152B55563A00312716 /* CreateProductDetailsView.swift in Sources */,
 				D06A52032B55555D00312716 /* Product_SaverApp.swift in Sources */,
 				D03C891C2B7729C400068EFD /* ProductDetailView.swift in Sources */,

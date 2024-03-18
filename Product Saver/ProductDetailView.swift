@@ -9,14 +9,14 @@ import SwiftUI
 import SwiftData
 
 struct ProductDetailView: View {
-    var storedData: StoredData
+    var storedProduct: StoredProduct
     @Environment(\.modelContext) var context
     @EnvironmentObject var settingsViewModel: SettingsViewModel
     @State private var isFullScreen = false
     @State private var lastOffset: CGSize = .zero
     @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
-    @State private var editStoredData: StoredData?
+    @State private var editStoredProduct: StoredProduct?
     @State private var confirmProductDeletion = false
     @Environment(\.presentationMode) var presentationMode
 
@@ -28,36 +28,36 @@ struct ProductDetailView: View {
                         VStack(alignment: .leading, spacing: 10) {
                             Label("Item Name", systemImage: "tag")
                                 .foregroundColor(.gray)
-                            Text(storedData.itemName.isEmpty ? "Mandatory item name is blank" : storedData.itemName)
-                                .foregroundColor(storedData.itemName.isEmpty ? .red : .primary)
+                            Text(storedProduct.itemName.isEmpty ? "Mandatory item name is blank" : storedProduct.itemName)
+                                .foregroundColor(storedProduct.itemName.isEmpty ? .red : .primary)
                             Divider()
                             Label("Brand Name", systemImage: "building")
                                 .foregroundColor(.gray)
-                            Text(storedData.brandName.isEmpty ? "Mandatory brand name is blank" : storedData.brandName)
+                            Text(storedProduct.brandName.isEmpty ? "Mandatory brand name is blank" : storedProduct.brandName)
                             Divider()
-                                .foregroundColor(storedData.brandName.isEmpty ? .red : .primary)
+                                .foregroundColor(storedProduct.brandName.isEmpty ? .red : .primary)
                             Label("Category", systemImage: "folder")
                                 .foregroundColor(.gray)
-                            Text(storedData.category?.categoryName ?? "None")
+                            Text(storedProduct.category?.categoryName ?? "None")
                             Divider()
-                            if !(storedData.desc?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
+                            if !(storedProduct.desc?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
                                 Label("Description", systemImage: "doc.plaintext")
                                     .foregroundColor(.gray)
-                                Text((storedData.desc?.isEmpty == true) ? "N/A" : (storedData.desc ?? "N/A"))
+                                Text((storedProduct.desc?.isEmpty == true) ? "N/A" : (storedProduct.desc ?? "N/A"))
                                     .lineLimit(nil)
                                 Divider()
                             }
-                            if !(storedData.notes?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
+                            if !(storedProduct.notes?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
                                 Label("Notes", systemImage: "square.and.pencil")
                                     .foregroundColor(.gray)
-                                Text((storedData.notes?.isEmpty == true) ? "N/A" : (storedData.notes ?? "N/A"))
-                                Text(storedData.notes ?? "")
+                                Text((storedProduct.notes?.isEmpty == true) ? "N/A" : (storedProduct.notes ?? "N/A"))
+                                Text(storedProduct.notes ?? "")
                                     .lineLimit(nil)
                             }
                         }
                     }
                     Section(header: Label("Photo", systemImage: "photo")) {
-                        if let selectedPhotoData = storedData.image,
+                        if let selectedPhotoData = storedProduct.image,
                            let uiImage = UIImage(data: selectedPhotoData) {
                             Image(uiImage: uiImage)
                                 .resizable()
@@ -95,7 +95,7 @@ struct ProductDetailView: View {
                     Section(header: Label("Modify Product", systemImage: "pencil")) {
                         Button("Edit Product") {
                             withAnimation {
-                                editStoredData = storedData
+                                editStoredProduct = storedProduct
                             }
                         }
                         .foregroundColor(settingsViewModel.tintColors)
@@ -108,7 +108,7 @@ struct ProductDetailView: View {
                                   message: Text("Are you sure you want to delete this product?"),
                                   primaryButton: .destructive(Text("Delete")) {
                                       withAnimation {
-                                          context.delete(storedData)
+                                          context.delete(storedProduct)
                                           presentationMode.wrappedValue.dismiss()
                                       }
                                   },
@@ -116,13 +116,13 @@ struct ProductDetailView: View {
                         }                    }
 
                 }
-                .sheet(item: $editStoredData,
+                .sheet(item: $editStoredProduct,
                        onDismiss: {
-                    editStoredData = nil
+                    editStoredProduct = nil
                 },
                        content: { editData in
                     NavigationStack {
-                        UpdateProductDetailsView(storedData: editData)
+                        UpdateProductDetailsView(storedProduct: editData)
                             .interactiveDismissDisabled()
                     }
                 })
@@ -134,8 +134,8 @@ struct ProductDetailView: View {
 }
 
 #Preview {
-    let preview = PreviewContainer(StoredData.self)
-    return ProductDetailView(storedData: StoredData.sampleProducts[4])
+    let preview = PreviewContainer(StoredProduct.self)
+    return ProductDetailView(storedProduct: StoredProduct.sampleProducts[4])
         .modelContainer(preview.container)
         .environmentObject(SettingsViewModel())
 }
