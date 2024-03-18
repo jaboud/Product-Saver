@@ -12,15 +12,15 @@ struct ContentSettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(footer: Text("When enabled, categories will be grouped together with the list of products. Filtering Categories will be disabled when this option is enabled.")) {
+                Section(footer: Text("Group categories together with the list of products. Filtering Categories will be disabled when this option is enabled.")) {
                     Toggle(isOn: $settingsViewModel.isGroupingCategories) {
                         Text("Group Categories")
                     }
                     .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
                 }
-                Section(footer: Text("When enabled, blank data will be hidden within Product Details.")) {
+                Section(footer: Text("Hide empty product data within Product Details.")) {
                     Toggle(isOn: $settingsViewModel.isHidingBlankData) {
-                        Text("Hide Blank Data")
+                        Text("Hide Empty Product Data")
                     }
                     .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
                 }
