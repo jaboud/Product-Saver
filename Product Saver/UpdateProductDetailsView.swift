@@ -1,5 +1,5 @@
 //
-//  UpdateDetailsView.swift
+//  UpdateProductDetailsView.swift
 //  Product Saver
 //
 //  Created by Justin Aboud on 15/1/2024.

@@ -1,5 +1,5 @@
 //
-//  CreateCategoryView.swift
+//  CategoriesView.swift
 //  Product Saver
 //
 //  Created by Justin Aboud on 16/1/2024.
