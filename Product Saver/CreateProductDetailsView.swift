@@ -17,7 +17,7 @@ struct CreateProductDetailsView: View {
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
-    @State private var storedProduct = StoredProduct()
+    @State private var product = Product()
     @State private var showValidationAlert = false
     @State private var isCameraPresented = false
     @State private var image: UIImage?
@@ -35,24 +35,24 @@ struct CreateProductDetailsView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Label("Item Name*", systemImage: "tag")
                             .foregroundColor(.gray)
-                            TextField("Enter Item name...", text: $storedProduct.itemName)
+                            TextField("Enter Item name...", text: $product.itemName)
                         Divider()
                         Label("Brand Name*", systemImage: "building")
                             .foregroundColor(.gray)
-                        TextField("Enter Brand name...", text: $storedProduct.brandName)
+                        TextField("Enter Brand name...", text: $product.brandName)
                         Divider()
                         Label("Description", systemImage: "doc.plaintext")
                             .foregroundColor(.gray)
                             TextField("Enter Product Description...", text: Binding(
-                                get: { self.storedProduct.desc ?? "" },
-                                set: { self.storedProduct.desc = $0 }
+                                get: { self.product.desc ?? "" },
+                                set: { self.product.desc = $0 }
                             ))
                         Divider()
                         Label("Notes", systemImage: "square.and.pencil")
                             .foregroundColor(.gray)
                             TextField("Enter Product Notes...", text: Binding(
-                                get: { self.storedProduct.notes ?? "" },
-                                set: { self.storedProduct.notes = $0 }
+                                get: { self.product.notes ?? "" },
+                                set: { self.product.notes = $0 }
                             ))
                             .lineLimit(nil)
                     }
@@ -77,7 +77,7 @@ struct CreateProductDetailsView: View {
                 }
 
                 Section(header: Label("Photo", systemImage: "photo")) {
-                    if let selectedPhotoData = storedProduct.image,
+                    if let selectedPhotoData = product.image,
                        let uiImage = UIImage(data: selectedPhotoData) {
                         Image(uiImage: uiImage)
                             .resizable()
@@ -90,7 +90,7 @@ struct CreateProductDetailsView: View {
                     Button(action: {
                         isActionSheetPresented = true
                     }) {
-                        if storedProduct.image != nil{
+                        if product.image != nil{
                             Label("Re-upload Photo", systemImage: "camera")
                         }
                         else{
@@ -111,16 +111,16 @@ struct CreateProductDetailsView: View {
                         }
 
                         .sheet(isPresented: $isCameraPresented) {
-                            CameraImage(imageData: $storedProduct.image)
+                            CameraImage(imageData: $product.image)
                         }
 
                         .photosPicker(isPresented: $isPickerPresented, selection: $selectedPhoto)
 
-                    if storedProduct.image != nil {
+                    if product.image != nil {
                         Button(role: .destructive) {
                             withAnimation {
                                 selectedPhoto = nil
-                                storedProduct.image = nil
+                                product.image = nil
                             }
                         } label: {
                             Label("Remove Photo", systemImage: "xmark")
@@ -131,7 +131,7 @@ struct CreateProductDetailsView: View {
 
                 Button("Create Product") {
                     withAnimation {
-                        if !storedProduct.itemName.isEmpty && !storedProduct.brandName.isEmpty {
+                        if !product.itemName.isEmpty && !product.brandName.isEmpty {
                             save()
                             dismiss()
                         } else {
@@ -156,7 +156,7 @@ struct CreateProductDetailsView: View {
         }
         .task(id: selectedPhoto) {
             if let data = try? await selectedPhoto?.loadTransferable(type: Data.self) {
-                storedProduct.image = data
+                product.image = data
             }
         }
     }
@@ -166,20 +166,20 @@ struct CreateProductDetailsView: View {
 
 private extension CreateProductDetailsView {
     func save() {
-        guard !storedProduct.itemName.isEmpty && !storedProduct.brandName.isEmpty else {
+        guard !product.itemName.isEmpty && !product.brandName.isEmpty else {
             showValidationAlert = true
             return
         }
 
-        context.insert(storedProduct)
-        storedProduct.category = selectedCategory
-        selectedCategory?.storedProducts?.append(storedProduct)
+        context.insert(product)
+        product.category = selectedCategory
+        selectedCategory?.products?.append(product)
     }
 }
 
 #Preview {
     NavigationStack{
-        let preview = PreviewContainer(StoredProduct.self)
+        let preview = PreviewContainer(Product.self)
         return CreateProductDetailsView()
             .modelContainer(preview.container)
             .environmentObject(SettingsViewModel())
