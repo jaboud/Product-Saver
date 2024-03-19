@@ -11,21 +11,32 @@ import SwiftUI
 struct AppearanceSettingsView: View {
 
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Scheme"))
-                {
-                    Picker("", selection: $settingsViewModel.colorSchemeOption) {
-                        Text("System").tag(0)
-                        Text("Light").tag(1)
-                        Text("Dark").tag(2)
+                Section{
+                    NavigationLink(destination: SchemeSettingsView(settingsViewModel: settingsViewModel)) {
+                        HStack {
+                            Text("Scheme")
+                            Spacer()
+                            Text({
+                                switch settingsViewModel.colorSchemeOption {
+                                case 0:
+                                    return "System"
+                                case 1:
+                                    return "Light"
+                                case 2:
+                                    return "Dark"
+                                default:
+                                    return "Unknown"
+                                }
+                            }())
+                            .foregroundStyle(.gray)
+                        }
                     }
-                    .pickerStyle(.inline)
-                    .labelsHidden()
                 }
-
                 Section{
                     NavigationLink(destination: TintColorSettingsView(settingsViewModel: settingsViewModel)) {
                         Label("Tint Color", systemImage: "paintpalette")
