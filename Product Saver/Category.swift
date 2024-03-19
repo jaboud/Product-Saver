@@ -12,7 +12,7 @@ class Category {
     @Attribute(.unique)
 
     var categoryName: String
-    var storedProducts: [StoredProduct]?
+    var products: [Product]?
 
     init(categoryName: String = "") {
         self.categoryName = categoryName

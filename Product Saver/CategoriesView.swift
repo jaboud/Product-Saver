@@ -1,5 +1,5 @@
 //
-//  CreateCategoryView.swift
+//  CategoriesView.swift
 //  Product Saver
 //
 //  Created by Justin Aboud on 16/1/2024.
@@ -53,7 +53,7 @@ struct CategoriesView: View {
                             if !lowercasedCategories.contains(categoryName.lowercased()) {
                                 let category = Category(categoryName: categoryName)
                                 context.insert(category)
-                                category.storedProducts = []
+                                category.products = []
                                 categoryName = ""
                                 selectedCategories.insert(category.categoryName)
                                 UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
