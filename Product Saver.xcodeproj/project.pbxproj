@@ -142,10 +142,18 @@
 		D08C3A262BB6E42000C7CB0D /* Partial Views */ = {
 			isa = PBXGroup;
 			children = (
+				D097F5302BB788ED0028EC50 /* Settings */,
+			);
+			name = "Partial Views";
+			sourceTree = "<group>";
+		};
+		D097F5302BB788ED0028EC50 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
 				D08C3A212BB6E04400C7CB0D /* AboutSectionView.swift */,
 				D08C3A232BB6E1DC00C7CB0D /* ContactDeveloperSectionView.swift */,
 			);
-			name = "Partial Views";
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		D0EF05B62BB4DF2500553F38 /* Other */ = {
