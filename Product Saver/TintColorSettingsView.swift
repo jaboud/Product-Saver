@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TintColorSettingsView: View {
+
     @ObservedObject var settingsViewModel: SettingsViewModel
     @Environment(\.colorScheme) var colorScheme
 

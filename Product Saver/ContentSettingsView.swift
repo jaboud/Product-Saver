@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ContentSettingsView: View {
+
     @ObservedObject var settingsViewModel: SettingsViewModel
+    
     var body: some View {
         NavigationStack {
             List {
