@@ -14,7 +14,7 @@ struct TintColorSettingsView: View {
     var body: some View {
         NavigationStack {
             List{
-                Section(footer: Text("Some options may be hidden based on the selected color scheme. The default color will be selected if the selected color is not available in the current scheme.")) {
+                Section() {
                     Picker("Tint Color", selection: $settingsViewModel.tintColor) {
                         HStack {
                             Image(systemName: "circle.fill")
