@@ -11,8 +11,6 @@ import SwiftData
 @main
 struct Product_SaverApp: App {
     @StateObject private var settingsViewModel = SettingsViewModel()
-    @Environment(\.colorScheme) var colorScheme
-
 
     var body: some Scene {
         WindowGroup {
@@ -25,8 +23,7 @@ struct Product_SaverApp: App {
                 }
                 .accentColor(settingsViewModel.tintColors)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    settingsViewModel.applyColorScheme()
-                }
+                    settingsViewModel.applyColorScheme()             }
         }
     }
 }
