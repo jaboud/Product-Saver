@@ -39,7 +39,29 @@ struct AppearanceSettingsView: View {
                 }
                 Section{
                     NavigationLink(destination: TintColorSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Tint Color", systemImage: "paintpalette")
+                        HStack {
+                            Label("Tint Color", systemImage: "paintpalette")
+                            Spacer()
+                            Text({
+                                switch settingsViewModel.tintColor {
+                                case 0:
+                                    return "Default"
+                                case 1:
+                                    return "Green"
+                                case 2:
+                                    return "Red"
+                                case 3:
+                                    return "Orange"
+                                case 4:
+                                    return "Pink"
+                                case 5:
+                                    return "Purple"
+                                default:
+                                    return "Unknown"
+                                }
+                            }())
+                            .foregroundStyle(.gray)
+                        }
                     }
                 }
             }

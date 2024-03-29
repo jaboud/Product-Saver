@@ -77,12 +77,18 @@ struct CreateProductDetailsView: View {
                 }
 
                 Section(header: Label("Photo", systemImage: "photo")) {
-                    if let selectedPhotoData = product.image,
-                       let uiImage = UIImage(data: selectedPhotoData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: 300)
+                    if product.image != nil {
+                        if let selectedPhotoData = product.image,
+                           let uiImage = UIImage(data: selectedPhotoData) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, maxHeight: 300)
+                        }
+                    }
+                    else{
+                        Text("No photo selected")
+                            .foregroundStyle(.gray)
                     }
                 }
 

@@ -57,38 +57,44 @@ struct ProductDetailView: View {
                         }
                     }
                     Section(header: Label("Photo", systemImage: "photo")) {
-                        if let selectedPhotoData = product.image,
-                           let uiImage = UIImage(data: selectedPhotoData) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(maxWidth: .infinity, maxHeight: 300)
-                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                                .onTapGesture {
-                                    isFullScreen.toggle()
-                                }
-                                .fullScreenCover(isPresented: $isFullScreen) {
-                                    ZStack {
-                                        Color.black
-                                            .ignoresSafeArea()
-                                        
-                                        Image(uiImage: uiImage)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .edgesIgnoringSafeArea(.all)
-                                            .gesture(DragGesture()
-                                                .onEnded { value in
-                                                    let threshold: CGFloat = 100
-                                                    if value.translation.height > threshold {
-                                                        isFullScreen = false
-                                                    }
-                                                }
-                                            )
-                                            .onTapGesture {
-                                                isFullScreen.toggle()
-                                            }
+                        if product.image != nil {
+                            if let selectedPhotoData = product.image,
+                               let uiImage = UIImage(data: selectedPhotoData) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(maxWidth: .infinity, maxHeight: 300)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                    .onTapGesture {
+                                        isFullScreen.toggle()
                                     }
-                                }
+                                    .fullScreenCover(isPresented: $isFullScreen) {
+                                        ZStack {
+                                            Color.black
+                                                .ignoresSafeArea()
+
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .edgesIgnoringSafeArea(.all)
+                                                .gesture(DragGesture()
+                                                    .onEnded { value in
+                                                        let threshold: CGFloat = 100
+                                                        if value.translation.height > threshold {
+                                                            isFullScreen = false
+                                                        }
+                                                    }
+                                                )
+                                                .onTapGesture {
+                                                    isFullScreen.toggle()
+                                                }
+                                        }
+                                    }
+                            }
+                        }
+                        else{
+                            Text("No photo selected")
+                                .foregroundStyle(.gray)
                         }
                     }
 
