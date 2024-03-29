@@ -107,12 +107,12 @@
 		D06E12DA2BA8436F00216246 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D0EF82692B91D7050077198D /* AppearanceSettingsView.swift */,
+				D0EF826D2B91FE290077198D /* ContentSettingsView.swift */,
 				D0424E1D2B5E1605008246B5 /* SettingsView.swift */,
 				D07B653E2B5E3A6600C09132 /* SettingsViewModel.swift */,
-				D0EF82692B91D7050077198D /* AppearanceSettingsView.swift */,
-				D0EF826B2B91F34F0077198D /* TintColorSettingsView.swift */,
-				D0EF826D2B91FE290077198D /* ContentSettingsView.swift */,
 				D06E12DE2BA8478700216246 /* SchemeSettingsView.swift */,
+				D0EF826B2B91F34F0077198D /* TintColorSettingsView.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -120,9 +120,8 @@
 		D06E12DB2BA843F500216246 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
-				D0EF826F2B9200270077198D /* DataSettingsView.swift */,
-				D06A52122B55558100312716 /* Product.swift */,
 				D04D4FDC2B86C6BA00F83217 /* Category.swift */,
+				D06A52122B55558100312716 /* Product.swift */,
 			);
 			name = "Data Models";
 			sourceTree = "<group>";
@@ -130,11 +129,12 @@
 		D06E12DD2BA8452B00216246 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D02AFCBF2B56188200BD3C9B /* CategoriesView.swift */,
 				D06A52042B55555D00312716 /* ContentView.swift */,
 				D06A52142B55563A00312716 /* CreateProductDetailsView.swift */,
-				D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */,
-				D02AFCBF2B56188200BD3C9B /* CategoriesView.swift */,
+				D0EF826F2B9200270077198D /* DataSettingsView.swift */,
 				D03C891B2B7729C400068EFD /* ProductDetailView.swift */,
+				D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -159,9 +159,9 @@
 		D0EF05B62BB4DF2500553F38 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				D06A52022B55555D00312716 /* Product_SaverApp.swift */,
-				D03C891D2B772D6100068EFD /* PreviewContainer.swift */,
 				D04CE4612B8CA22800CE612E /* CameraImage.swift */,
+				D03C891D2B772D6100068EFD /* PreviewContainer.swift */,
+				D06A52022B55555D00312716 /* Product_SaverApp.swift */,
 			);
 			name = Other;
 			path = ..;
