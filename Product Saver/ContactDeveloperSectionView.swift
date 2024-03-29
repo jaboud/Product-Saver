@@ -10,19 +10,19 @@ import SwiftUI
 struct ContactDeveloperSectionView: View {
 
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @State private var showingAlert = false
-    @State private var isActionSheetPresented = false
+    @State private var isShowingCannotFindMailAppAlert = false
+    @State private var isContactDeveloperOptionsActionSheetPresented = false
 
     var body: some View {
         Section(footer: Text("Your device details will be attached to the email for troubleshooting purposes if you choose to ask for application support. No personal data is collected or stored.")) {
             Button(action: {
-                self.isActionSheetPresented = true
+                self.isContactDeveloperOptionsActionSheetPresented = true
             }) {
                 Text("Contact Developer")
                     .foregroundColor(settingsViewModel.tintColors)
             }
         }
-        .actionSheet(isPresented: $isActionSheetPresented) {
+        .actionSheet(isPresented: $isContactDeveloperOptionsActionSheetPresented) {
             ActionSheet(title: Text("Contact Developer"), buttons: [
                 .default(Text("Support")) {
                     self.sendEmail(includeDeviceDetails: true, subject: "Product Saver - Support")
@@ -36,9 +36,9 @@ struct ContactDeveloperSectionView: View {
                 .cancel()
             ])
         }
-        .alert("Cannot find 'Mail' app", isPresented: $showingAlert){
+        .alert("Cannot find 'Mail' app", isPresented: $isShowingCannotFindMailAppAlert){
             Button("OK") {
-                showingAlert = false
+                isShowingCannotFindMailAppAlert = false
             }
         }
     message:{
@@ -57,11 +57,11 @@ struct ContactDeveloperSectionView: View {
         let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         let mailURLString = "mailto:\(email)?subject=\(encodedSubject)&body=\(encodedBody)"
         guard let mailURL = URL(string: mailURLString) else {
-            self.showingAlert = true
+            self.isShowingCannotFindMailAppAlert = true
             return
         }
         if !UIApplication.shared.canOpenURL(mailURL) {
-            self.showingAlert = true
+            self.isShowingCannotFindMailAppAlert = true
         }
         UIApplication.shared.open(mailURL)
     }

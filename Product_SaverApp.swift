@@ -10,6 +10,7 @@ import SwiftData
 
 @main
 struct Product_SaverApp: App {
+
     @StateObject private var settingsViewModel = SettingsViewModel()
 
     var body: some Scene {

@@ -43,10 +43,6 @@ struct ContentView: View {
     @State private var showCreateDetailsView = false
     @State private var showCreateCategoryView = false
     @State private var editProduct: Product?
-    @State private var isFullScreen = false
-    @State private var lastOffset: CGSize = .zero
-    @State private var scale: CGFloat = 1.0
-    @State private var offset: CGSize = .zero
     @State private var searchQuery = ""
     @AppStorage("selectedSortOption") private var selectedSortOption: SortOption = .RecentlyAdded
     @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()

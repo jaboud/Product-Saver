@@ -21,8 +21,8 @@ struct UpdateProductDetailsView: View {
     @State private var showValidationAlert = false
     @State private var isCameraPresented = false
     @State private var cameraImage: UIImage?
-    @State private var isActionSheetPresented = false
-    @State private var isPickerPresented = false
+    @State private var isPhotoOptionActionSheetPresented = false
+    @State private var isPhotoPickerPresented = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -93,7 +93,7 @@ struct UpdateProductDetailsView: View {
 
                 Section(header: Label("Photo Options", systemImage: "camera")) {
                     Button(action: {
-                        isActionSheetPresented = true
+                        isPhotoOptionActionSheetPresented = true
                     }) {
                         if product.image != nil{
                             Label("Re-upload Photo", systemImage: "camera")
@@ -103,13 +103,13 @@ struct UpdateProductDetailsView: View {
                         }
                     }
                     .foregroundStyle(settingsViewModel.tintColors)
-                    .actionSheet(isPresented: $isActionSheetPresented) {
+                    .actionSheet(isPresented: $isPhotoOptionActionSheetPresented) {
                             ActionSheet(title: Text("Upload product photo"), buttons: [
                                 .default(Text("Take Photo")) {
                                     isCameraPresented.toggle()
                                 },
                                 .default(Text("Choose Photo")) {
-                                    isPickerPresented.toggle()
+                                    isPhotoPickerPresented.toggle()
                                 },
                                 .cancel()
                             ])
@@ -119,7 +119,7 @@ struct UpdateProductDetailsView: View {
                             CameraImage(imageData: $product.image)
                         }
 
-                        .photosPicker(isPresented: $isPickerPresented, selection: $selectedPhoto)
+                        .photosPicker(isPresented: $isPhotoPickerPresented, selection: $selectedPhoto)
 
                     if product.image != nil {
                         Button(role: .destructive) {
