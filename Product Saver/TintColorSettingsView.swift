@@ -52,22 +52,9 @@ struct TintColorSettingsView: View {
                             Text("Purple")
                         }
                         .tag(5)
-                        if colorScheme == .dark {
-                            HStack{
-                                Image(systemName: "circle.fill")
-                                    .foregroundColor(.yellow)
-                                Text("Yellow")
-                            }
-                            .tag(6)
-                        }
                     }
                     .pickerStyle(.inline)
                     .labelsHidden()
-                    .onChange(of: colorScheme) {
-                        if colorScheme == .light && settingsViewModel.tintColor == 6 {
-                            settingsViewModel.tintColor = 0
-                        }
-                    }
                 }
             }
             .navigationTitle("Tint Color")
