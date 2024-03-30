@@ -10,8 +10,8 @@ import SwiftUI
 struct ContactDeveloperSectionView: View {
 
     @ObservedObject var settingsViewModel: SettingsViewModel
-    @State private var isShowingCannotFindMailAppAlert = false
     @State private var isContactDeveloperOptionsActionSheetPresented = false
+    @State private var isShowingCannotFindMailAppAlert = false
 
     var body: some View {
         Section(footer: Text("Your device details will be attached to the email for troubleshooting purposes if you choose to ask for application support. No personal data is collected or stored.")) {

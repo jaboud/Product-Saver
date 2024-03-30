@@ -24,7 +24,6 @@ struct CreateProductDetailsView: View {
     @State private var isPhotoOptionActionSheetPresented = false
     @State private var isChoosePhotoPickerPresented = false
 
-
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Required *")

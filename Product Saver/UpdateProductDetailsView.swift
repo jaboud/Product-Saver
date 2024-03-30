@@ -18,11 +18,11 @@ struct UpdateProductDetailsView: View {
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
-    @State private var showValidationAlert = false
-    @State private var isCameraPresented = false
     @State private var cameraImage: UIImage?
+    @State private var isCameraPresented = false
     @State private var isPhotoOptionActionSheetPresented = false
     @State private var isPhotoPickerPresented = false
+    @State private var showValidationAlert = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {

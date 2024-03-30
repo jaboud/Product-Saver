@@ -9,16 +9,17 @@ import SwiftUI
 import SwiftData
 
 struct ProductDetailView: View {
-    var product: Product
+
     @Environment(\.modelContext) var context
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @State private var confirmProductDeletion = false
+    @State private var editProduct: Product?
     @State private var isFullScreen = false
     @State private var lastOffset: CGSize = .zero
-    @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
-    @State private var editProduct: Product?
-    @State private var confirmProductDeletion = false
-    @Environment(\.presentationMode) var presentationMode
+    @State private var scale: CGFloat = 1.0
+    var product: Product
 
     var body: some View {
         NavigationStack {

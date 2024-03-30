@@ -10,8 +10,8 @@ import SwiftUI
 
 struct AppearanceSettingsView: View {
 
-    @ObservedObject var settingsViewModel: SettingsViewModel
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var settingsViewModel: SettingsViewModel
 
     var body: some View {
         NavigationStack {
