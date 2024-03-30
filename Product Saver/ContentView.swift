@@ -97,47 +97,6 @@ struct ContentView: View {
         return Array(uniqueCategories)
     }
 
-    func productListView(with data: [Product]) -> some View {
-        ForEach(data) { product in
-            Section {
-                NavigationLink(destination: ProductDetailView(product: product)) {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Label("Item Name", systemImage: "tag")
-                                .foregroundColor(.gray)
-                            Text(product.itemName)
-                            Label("Brand Name", systemImage: "building")
-                                .foregroundStyle(.gray)
-                            Text(product.brandName)
-                            if !settingsViewModel.isGroupingCategories {
-                                Label("Category", systemImage: "folder")
-                                    .foregroundStyle(.gray)
-                                Text(product.category?.categoryName ?? "None")
-                            }
-                        }
-                    }
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            withAnimation {
-                                context.delete(product)
-                            }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                                .symbolVariant(.fill)
-                        }
-
-                        Button {
-                            editProduct = product
-                        } label: {
-                            Label("Edit", systemImage: "pencil")
-                        }
-                        .tint(.orange)
-                    }
-                }
-            }
-        }
-    }
-
     var body: some View {
         TabView {
             NavigationStack {
@@ -154,15 +113,16 @@ struct ContentView: View {
                             ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
                                 Section(header: Label(category, systemImage: "folder")) {
                                     if category == "None" {
-                                        productListView(with: filteredData.filter { $0.category?.categoryName == nil })
+                                        ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
                                     } else {
-                                        productListView(with: filteredData.filter { $0.category?.categoryName == category })
+                                        ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
                                     }
                                 }
                             }
                         } else {
-                            productListView(with: filteredData)
-                        }                    }
+                            ProductListView(data: filteredData)
+                        }
+                    }
                 }
                 .navigationTitle("Product Saver")
                 .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
