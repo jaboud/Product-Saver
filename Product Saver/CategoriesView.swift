@@ -34,12 +34,12 @@ extension SortCategory {
 
 struct CategoriesView: View {
 
+    @AppStorage("selectedSortCategory") private var selectedSortCategory: SortCategory = .RecentlyAdded
+    @Binding var selectedCategories: Set<String>
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Query private var categories: [Category]
     @State private var categoryName: String = ""
-    @AppStorage("selectedSortCategory") private var selectedSortCategory: SortCategory = .RecentlyAdded
-    @Binding var selectedCategories: Set<String>
     @State private var showDuplicatedCategoryAlert = false
 
     var body: some View {

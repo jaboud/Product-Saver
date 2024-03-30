@@ -37,21 +37,21 @@ extension SortOption {
 
 struct ContentView: View {
 
+    @AppStorage("selectedSortOption") private var selectedSortOption: SortOption = .RecentlyAdded
+    @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
     @Query private var products: [Product]
     @State private var showCreateDetailsView = false
     @State private var showCreateCategoryView = false
     @State private var editProduct: Product?
     @State private var searchQuery = ""
-    @AppStorage("selectedSortOption") private var selectedSortOption: SortOption = .RecentlyAdded
-    @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @State private var selectedCategories: Set<String> = Set() {
         didSet {
             UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
         }
     }
-    @EnvironmentObject var settingsViewModel: SettingsViewModel
 
     init() {
         if let storedSelectedCategories = UserDefaults.standard.array(forKey: "selectedCategories") as? [String] {

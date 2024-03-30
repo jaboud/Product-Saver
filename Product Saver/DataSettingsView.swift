@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct DataSettingsView: View {
+
+    @Environment(\.modelContext) var context
     @ObservedObject var settingsViewModel: SettingsViewModel
     @Query private var products: [Product]
     @Query private var categories: [Category]
-    @Environment(\.modelContext) var context
     @State private var showAllDataDeletionConfirmation = false
     @State private var showAllDataDeletionWarning = false
     @State private var showProductDataDeletionConfirmation = false
