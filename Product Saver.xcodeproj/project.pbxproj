@@ -123,7 +123,7 @@
 				D097F53A2BB96AC00028EC50 /* Category */,
 				D097F5382BB96A720028EC50 /* CreateProductDetails */,
 				D097F5362BB96A020028EC50 /* Content */,
-				D097F53B2BB96AD50028EC50 /* ProductDetails */,
+				D097F53B2BB96AD50028EC50 /* ProductDetail */,
 				D097F5372BB96A400028EC50 /* Settings */,
 				D097F5392BB96A900028EC50 /* Update Product Details */,
 			);
@@ -176,12 +176,12 @@
 			name = Category;
 			sourceTree = "<group>";
 		};
-		D097F53B2BB96AD50028EC50 /* ProductDetails */ = {
+		D097F53B2BB96AD50028EC50 /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
 				D03C891B2B7729C400068EFD /* ProductDetailView.swift */,
 			);
-			name = ProductDetails;
+			name = ProductDetail;
 			sourceTree = "<group>";
 		};
 		D097F53C2BB96B170028EC50 /* Appearance */ = {
