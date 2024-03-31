@@ -11,20 +11,20 @@ import SwiftData
 @main
 struct Product_SaverApp: App {
 
-    @StateObject private var settingsViewModel = Settings()
+    @StateObject private var settings = Settings()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .modelContainer(for: Product.self)
-                .environmentObject(settingsViewModel)
+                .environmentObject(settings)
                 .onAppear(){
                     UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
-                    settingsViewModel.applyColorScheme()
+                    settings.applyColorScheme()
                 }
-                .accentColor(settingsViewModel.tintColors)
+                .accentColor(settings.tintColors)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    settingsViewModel.applyColorScheme()             }
+                    settings.applyColorScheme()             }
         }
     }
 }

@@ -10,38 +10,38 @@ import SwiftData
 
 struct SettingsView: View {
 
-    @ObservedObject var settingsViewModel: Settings
+    @ObservedObject var settings: Settings
     @ScaledMetric var iconSize: CGFloat = 1
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    NavigationLink(destination: AppearanceSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Appearance", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .purple : settingsViewModel.tintColors, size: iconSize))
+                    NavigationLink(destination: AppearanceSettingsView(settings: settings)) {
+                        Label("Appearance", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .purple : settings.tintColors, size: iconSize))
                     }
                 }
                 Section {
-                    NavigationLink(destination: ContentSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Content", systemImage: "list.bullet.rectangle.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .gray : settingsViewModel.tintColors, size: iconSize))
+                    NavigationLink(destination: ContentSettingsView(settings: settings)) {
+                        Label("Content", systemImage: "list.bullet.rectangle.fill").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .gray : settings.tintColors, size: iconSize))
                     }
                 }
                 Section {
-                    NavigationLink(destination: DataSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Data", systemImage: "externaldrive.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors, size: iconSize))
+                    NavigationLink(destination: DataSettingsView(settings: settings)) {
+                        Label("Data", systemImage: "externaldrive.fill").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .red : settings.tintColors, size: iconSize))
                     }
                 }
 
                 AboutSectionView()
 
-                ContactDeveloperSectionView(settingsViewModel: settingsViewModel)
+                ContactDeveloperSectionView(settings: settings)
             }
             .navigationTitle("Settings")
-            .accentColor(settingsViewModel.tintColors)
+            .accentColor(settings.tintColors)
         }
     }
 }
 
 #Preview {
-    SettingsView(settingsViewModel: Settings())
+    SettingsView(settings: Settings())
 }

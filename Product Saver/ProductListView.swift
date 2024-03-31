@@ -10,7 +10,7 @@ import SwiftUI
 struct ProductListView: View {
 
     @Environment(\.modelContext) var context
-    @EnvironmentObject var settingsViewModel: Settings
+    @EnvironmentObject var settings: Settings
     @State private var editProduct: Product?
     var data: [Product]
 
@@ -26,7 +26,7 @@ struct ProductListView: View {
                             Label("Brand Name", systemImage: "building")
                                 .foregroundStyle(.gray)
                             Text(product.brandName)
-                            if !settingsViewModel.isGroupingCategories {
+                            if !settings.isGroupingCategories {
                                 Label("Category", systemImage: "folder")
                                     .foregroundStyle(.gray)
                                 Text(product.category?.categoryName ?? "None")

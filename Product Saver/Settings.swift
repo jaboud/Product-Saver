@@ -1,5 +1,5 @@
 //
-//  SettingsViewModel.swift
+//  Settings.swift
 //  Product Saver
 //
 //  Created by Justin Aboud on 22/1/2024.

@@ -9,14 +9,14 @@ import SwiftUI
 
 struct SchemeSettingsView: View {
 
-    @ObservedObject var settingsViewModel: Settings
+    @ObservedObject var settings: Settings
     
     var body: some View {
         NavigationStack {
             List {
                 Section(footer: Text("The selected scheme will be applied throughout the entire app"))
                 {
-                    Picker("", selection: $settingsViewModel.colorSchemeOption) {
+                    Picker("", selection: $settings.colorSchemeOption) {
                         Text("System").tag(0)
                         Text("Light").tag(1)
                         Text("Dark").tag(2)
@@ -32,5 +32,5 @@ struct SchemeSettingsView: View {
 }
 
 #Preview {
-    SchemeSettingsView(settingsViewModel: Settings())
+    SchemeSettingsView(settings: Settings())
 }

@@ -14,7 +14,7 @@ struct UpdateProductDetailsView: View {
     @Bindable var product: Product
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var settingsViewModel: Settings
+    @EnvironmentObject var settings: Settings
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
@@ -102,7 +102,7 @@ struct UpdateProductDetailsView: View {
                             Label("Upload Photo", systemImage: "camera")
                         }
                     }
-                    .foregroundStyle(settingsViewModel.tintColors)
+                    .foregroundStyle(settings.tintColors)
                     .actionSheet(isPresented: $isPhotoOptionActionSheetPresented) {
                             ActionSheet(title: Text("Upload product photo"), buttons: [
                                 .default(Text("Take Photo")) {
@@ -129,7 +129,7 @@ struct UpdateProductDetailsView: View {
                             }
                         } label: {
                             Label("Remove Photo", systemImage: "xmark")
-                                .foregroundStyle(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
+                                .foregroundStyle(settings.tintColors == .blue ? .red : settings.tintColors)
                         }
                     }
                 }
@@ -144,7 +144,7 @@ struct UpdateProductDetailsView: View {
                         }
                     }
                 }
-                .foregroundStyle(settingsViewModel.tintColors)
+                .foregroundStyle(settings.tintColors)
                 .alert(isPresented: $showValidationAlert) {
                     Alert(title: Text("Missing required details"), message: Text("Please enter both item name and brand name."), dismissButton: .default(Text("OK")))
                 }
@@ -164,7 +164,7 @@ struct UpdateProductDetailsView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                .foregroundStyle(settingsViewModel.tintColors)
+                .foregroundStyle(settings.tintColors)
             }
         }
     }

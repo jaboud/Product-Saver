@@ -11,7 +11,7 @@ import SwiftData
 struct DataSettingsView: View {
 
     @Environment(\.modelContext) var context
-    @ObservedObject var settingsViewModel: Settings
+    @ObservedObject var settings: Settings
     @Query private var products: [Product]
     @Query private var categories: [Category]
     @State private var showAllDataDeletionConfirmation = false
@@ -29,7 +29,7 @@ struct DataSettingsView: View {
                         showProductDataDeletionWarning = true
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .foregroundColor(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
+                    .foregroundColor(settings.tintColors == .blue ? .red : settings.tintColors)
                     .actionSheet(isPresented: $showProductDataDeletionWarning) {
                         ActionSheet(
                             title: Text("Warning"),
@@ -53,7 +53,7 @@ struct DataSettingsView: View {
                     Button("Reset Settings Data") {
                         showSettingsDataDeletionWarning = true
                     }
-                    .foregroundColor(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
+                    .foregroundColor(settings.tintColors == .blue ? .red : settings.tintColors)
                     .buttonStyle(PlainButtonStyle())
                     .actionSheet(isPresented: $showSettingsDataDeletionWarning) {
                         ActionSheet(
@@ -62,9 +62,9 @@ struct DataSettingsView: View {
                             buttons: [
                                 .destructive(Text("Delete")) {
                                     withAnimation {
-                                        settingsViewModel.colorSchemeOption = 0
-                                        settingsViewModel.isGroupingCategories = false
-                                        settingsViewModel.tintColor = 0
+                                        settings.colorSchemeOption = 0
+                                        settings.isGroupingCategories = false
+                                        settings.tintColor = 0
                                         showSettingsDataDeletionConfirmation = true
                                     }
                                 },
@@ -78,7 +78,7 @@ struct DataSettingsView: View {
                     Button("Reset All Data") {
                         showAllDataDeletionWarning = true
                     }
-                    .foregroundColor(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
+                    .foregroundColor(settings.tintColors == .blue ? .red : settings.tintColors)
                     .buttonStyle(PlainButtonStyle())
                     .actionSheet(isPresented: $showAllDataDeletionWarning) {
                         ActionSheet(
@@ -93,9 +93,9 @@ struct DataSettingsView: View {
                                         for category in categories {
                                             context.delete(category)
                                         }
-                                        settingsViewModel.colorSchemeOption = 0
-                                        settingsViewModel.isGroupingCategories = false
-                                        settingsViewModel.tintColor = 0
+                                        settings.colorSchemeOption = 0
+                                        settings.isGroupingCategories = false
+                                        settings.tintColor = 0
                                         showAllDataDeletionConfirmation = true
                                     }
                                 },
@@ -137,5 +137,5 @@ struct DataSettingsView: View {
 }
 
 #Preview {
-    DataSettingsView(settingsViewModel: Settings())
+    DataSettingsView(settings: Settings())
 }

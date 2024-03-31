@@ -41,7 +41,7 @@ struct ContentView: View {
     @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
-    @EnvironmentObject var settingsViewModel: Settings
+    @EnvironmentObject var settings: Settings
     @Query private var products: [Product]
     @State private var showCreateDetailsView = false
     @State private var showCreateCategoryView = false
@@ -109,7 +109,7 @@ struct ContentView: View {
                         ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
                     }
                     else {
-                        if settingsViewModel.isGroupingCategories && searchQuery.isEmpty {
+                        if settings.isGroupingCategories && searchQuery.isEmpty {
                             ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
                                 Section(header: Label(category, systemImage: "folder")) {
                                     if category == "None" {
@@ -140,7 +140,7 @@ struct ContentView: View {
                             }
                             Picker("", selection: $selectedSortOption) {
                                 ForEach(SortOption.allCases, id: \.rawValue) { option in
-                                    if !(settingsViewModel.isGroupingCategories && option == .Category) {
+                                    if !(settings.isGroupingCategories && option == .Category) {
                                         Label(option.rawValue.capitalized, systemImage: option.systemImage)
                                             .tag(option)
                                     }
@@ -223,7 +223,7 @@ struct ContentView: View {
                     Image(systemName: "folder")
                     Text("Category")
                 }
-            SettingsView(settingsViewModel: settingsViewModel)
+            SettingsView(settings: settings)
                 .tabItem {
                     Image(systemName: "gearshape")
                     Text("Settings")
