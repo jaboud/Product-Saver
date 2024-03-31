@@ -52,8 +52,6 @@ struct ProductDetailView: View {
                                 Label("Notes", systemImage: "square.and.pencil")
                                     .foregroundColor(.gray)
                                 Text((product.notes?.isEmpty == true) ? "N/A" : (product.notes ?? "N/A"))
-                                Text(product.notes ?? "")
-                                    .lineLimit(nil)
                             }
                         }
                     }
