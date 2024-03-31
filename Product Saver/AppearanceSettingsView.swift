@@ -20,7 +20,7 @@ struct AppearanceSettingsView: View {
                 Section{
                     NavigationLink(destination: SchemeSettingsView(settingsViewModel: settingsViewModel)) {
                         HStack {
-                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: .blue, size: iconSize))
+                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .blue : settingsViewModel.tintColors, size: iconSize))
                             Spacer()
                             Text({
                                 switch settingsViewModel.colorSchemeOption {
@@ -41,7 +41,7 @@ struct AppearanceSettingsView: View {
                 Section{
                     NavigationLink(destination: TintColorSettingsView(settingsViewModel: settingsViewModel)) {
                         HStack {
-                            Label("Tint Color", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: .orange, size: iconSize))
+                            Label("Tint Color", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .orange : settingsViewModel.tintColors, size: iconSize))
                             Spacer()
                             Text({
                                 switch settingsViewModel.tintColor {
