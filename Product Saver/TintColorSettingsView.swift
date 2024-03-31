@@ -10,13 +10,13 @@ import SwiftUI
 struct TintColorSettingsView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var settingsViewModel: Settings
+    @ObservedObject var settings: Settings
 
     var body: some View {
         NavigationStack {
             List{
                 Section() {
-                    Picker("Tint Color", selection: $settingsViewModel.tintColor) {
+                    Picker("Tint Color", selection: $settings.tintColor) {
                         HStack {
                             Image(systemName: "circle.fill")
                                 .foregroundColor(.blue)
@@ -65,5 +65,5 @@ struct TintColorSettingsView: View {
 }
 
 #Preview {
-    TintColorSettingsView(settingsViewModel: Settings())
+    TintColorSettingsView(settings: Settings())
 }

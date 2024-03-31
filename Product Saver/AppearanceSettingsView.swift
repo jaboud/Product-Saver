@@ -11,19 +11,19 @@ import SwiftUI
 struct AppearanceSettingsView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var settingsViewModel: Settings
+    @ObservedObject var settings: Settings
     @ScaledMetric var iconSize: CGFloat = 1
 
     var body: some View {
         NavigationStack {
             List {
                 Section{
-                    NavigationLink(destination: SchemeSettingsView(settingsViewModel: settingsViewModel)) {
+                    NavigationLink(destination: SchemeSettingsView(settings: settings)) {
                         HStack {
-                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .blue : settingsViewModel.tintColors, size: iconSize))
+                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .blue : settings.tintColors, size: iconSize))
                             Spacer()
                             Text({
-                                switch settingsViewModel.colorSchemeOption {
+                                switch settings.colorSchemeOption {
                                 case 0:
                                     return "System"
                                 case 1:
@@ -39,12 +39,12 @@ struct AppearanceSettingsView: View {
                     }
                 }
                 Section{
-                    NavigationLink(destination: TintColorSettingsView(settingsViewModel: settingsViewModel)) {
+                    NavigationLink(destination: TintColorSettingsView(settings: settings)) {
                         HStack {
-                            Label("Tint Color", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .orange : settingsViewModel.tintColors, size: iconSize))
+                            Label("Tint Color", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .orange : settings.tintColors, size: iconSize))
                             Spacer()
                             Text({
-                                switch settingsViewModel.tintColor {
+                                switch settings.tintColor {
                                 case 0:
                                     return "Default"
                                 case 1:
@@ -73,5 +73,5 @@ struct AppearanceSettingsView: View {
 }
 
 #Preview {
-    AppearanceSettingsView(settingsViewModel: Settings())
+    AppearanceSettingsView(settings: Settings())
 }

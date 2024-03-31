@@ -9,22 +9,22 @@ import SwiftUI
 
 struct ContentSettingsView: View {
 
-    @ObservedObject var settingsViewModel: Settings
+    @ObservedObject var settings: Settings
     
     var body: some View {
         NavigationStack {
             List {
                 Section(footer: Text("Group categories together with the list of products. Filtering Categories will be disabled when this option is enabled.")) {
-                    Toggle(isOn: $settingsViewModel.isGroupingCategories) {
+                    Toggle(isOn: $settings.isGroupingCategories) {
                         Text("Group Categories")
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
+                    .toggleStyle(SwitchToggleStyle(tint: settings.tintColors == .blue ? .green : settings.tintColors))
                 }
                 Section(footer: Text("Hide empty product data within Product Details.")) {
-                    Toggle(isOn: $settingsViewModel.isHidingBlankData) {
+                    Toggle(isOn: $settings.isHidingBlankData) {
                         Text("Hide Empty Product Data")
                     }
-                    .toggleStyle(SwitchToggleStyle(tint: settingsViewModel.tintColors == .blue ? .green : settingsViewModel.tintColors))
+                    .toggleStyle(SwitchToggleStyle(tint: settings.tintColors == .blue ? .green : settings.tintColors))
                 }
             }
             .navigationTitle("Content")
@@ -34,5 +34,5 @@ struct ContentSettingsView: View {
 }
 
 #Preview {
-    ContentSettingsView(settingsViewModel: Settings())
+    ContentSettingsView(settings: Settings())
 }

@@ -12,7 +12,7 @@ struct ProductDetailView: View {
 
     @Environment(\.modelContext) var context
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var settingsViewModel: Settings
+    @EnvironmentObject var settings: Settings
     @State private var confirmProductDeletion = false
     @State private var editProduct: Product?
     @State private var isFullScreen = false
@@ -41,14 +41,14 @@ struct ProductDetailView: View {
                                 .foregroundColor(.gray)
                             Text(product.category?.categoryName ?? "None")
                             Divider()
-                            if !(product.desc?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
+                            if !(product.desc?.isEmpty == true) || !settings.isHidingBlankData {
                                 Label("Description", systemImage: "doc.plaintext")
                                     .foregroundColor(.gray)
                                 Text((product.desc?.isEmpty == true) ? "N/A" : (product.desc ?? "N/A"))
                                     .lineLimit(nil)
                                 Divider()
                             }
-                            if !(product.notes?.isEmpty == true) || !settingsViewModel.isHidingBlankData {
+                            if !(product.notes?.isEmpty == true) || !settings.isHidingBlankData {
                                 Label("Notes", systemImage: "square.and.pencil")
                                     .foregroundColor(.gray)
                                 Text((product.notes?.isEmpty == true) ? "N/A" : (product.notes ?? "N/A"))
@@ -103,11 +103,11 @@ struct ProductDetailView: View {
                                 editProduct = product
                             }
                         }
-                        .foregroundColor(settingsViewModel.tintColors)
+                        .foregroundColor(settings.tintColors)
                         Button("Delete Product") {
                             confirmProductDeletion = true
                         }
-                        .foregroundStyle(settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors)
+                        .foregroundStyle(settings.tintColors == .blue ? .red : settings.tintColors)
                         .alert(isPresented: $confirmProductDeletion) {
                             Alert(title: Text("Delete Product"),
                                   message: Text("Are you sure you want to delete this product?"),
