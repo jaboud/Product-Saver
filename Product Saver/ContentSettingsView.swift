@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentSettingsView: View {
 
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
     
     var body: some View {
         NavigationStack {
@@ -34,5 +34,5 @@ struct ContentSettingsView: View {
 }
 
 #Preview {
-    ContentSettingsView(settingsViewModel: SettingsViewModel())
+    ContentSettingsView(settingsViewModel: Settings())
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct TintColorSettingsView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
 
     var body: some View {
         NavigationStack {
@@ -65,5 +65,5 @@ struct TintColorSettingsView: View {
 }
 
 #Preview {
-    TintColorSettingsView(settingsViewModel: SettingsViewModel())
+    TintColorSettingsView(settingsViewModel: Settings())
 }

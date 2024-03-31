@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class SettingsViewModel: ObservableObject {
+class Settings: ObservableObject {
     @Published var colorSchemeOption: Int {
         didSet {
             UserDefaults.standard.set(colorSchemeOption, forKey: "colorSchemeOption")

@@ -11,7 +11,7 @@ import SwiftData
 @main
 struct Product_SaverApp: App {
 
-    @StateObject private var settingsViewModel = SettingsViewModel()
+    @StateObject private var settingsViewModel = Settings()
 
     var body: some Scene {
         WindowGroup {

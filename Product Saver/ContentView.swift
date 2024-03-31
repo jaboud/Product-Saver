@@ -41,7 +41,7 @@ struct ContentView: View {
     @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
-    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var settingsViewModel: Settings
     @Query private var products: [Product]
     @State private var showCreateDetailsView = false
     @State private var showCreateCategoryView = false
@@ -259,5 +259,5 @@ private extension [Product] {
     preview.addExamples(Product.sampleProducts)
     return ContentView()
         .modelContainer(preview.container)
-        .environmentObject(SettingsViewModel())
+        .environmentObject(Settings())
 }
