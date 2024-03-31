@@ -11,23 +11,24 @@ import SwiftData
 struct SettingsView: View {
 
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @ScaledMetric var iconSize: CGFloat = 1
 
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     NavigationLink(destination: AppearanceSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Appearance", systemImage: "paintbrush")
+                        Label("Appearance", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: .purple, size: iconSize))
                     }
                 }
                 Section {
                     NavigationLink(destination: ContentSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Content", systemImage: "list.bullet.rectangle")
+                        Label("Content", systemImage: "list.bullet.rectangle.fill").labelStyle(SettingsIconStyle(color: .gray, size: iconSize))
                     }
                 }
                 Section {
                     NavigationLink(destination: DataSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Data", systemImage: "externaldrive")
+                        Label("Data", systemImage: "externaldrive.fill").labelStyle(SettingsIconStyle(color: .red, size: iconSize))
                     }
                 }
 

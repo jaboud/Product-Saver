@@ -12,6 +12,7 @@ struct AppearanceSettingsView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @ScaledMetric var iconSize: CGFloat = 1
 
     var body: some View {
         NavigationStack {
@@ -19,7 +20,7 @@ struct AppearanceSettingsView: View {
                 Section{
                     NavigationLink(destination: SchemeSettingsView(settingsViewModel: settingsViewModel)) {
                         HStack {
-                            Text("Scheme")
+                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: .blue, size: iconSize))
                             Spacer()
                             Text({
                                 switch settingsViewModel.colorSchemeOption {
@@ -40,7 +41,7 @@ struct AppearanceSettingsView: View {
                 Section{
                     NavigationLink(destination: TintColorSettingsView(settingsViewModel: settingsViewModel)) {
                         HStack {
-                            Label("Tint Color", systemImage: "paintpalette")
+                            Label("Tint Color", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: .orange, size: iconSize))
                             Spacer()
                             Text({
                                 switch settingsViewModel.tintColor {
