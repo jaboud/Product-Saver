@@ -18,17 +18,17 @@ struct SettingsView: View {
             List {
                 Section {
                     NavigationLink(destination: AppearanceSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Appearance", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: .purple, size: iconSize))
+                        Label("Appearance", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .purple : settingsViewModel.tintColors, size: iconSize))
                     }
                 }
                 Section {
                     NavigationLink(destination: ContentSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Content", systemImage: "list.bullet.rectangle.fill").labelStyle(SettingsIconStyle(color: .gray, size: iconSize))
+                        Label("Content", systemImage: "list.bullet.rectangle.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .gray : settingsViewModel.tintColors, size: iconSize))
                     }
                 }
                 Section {
                     NavigationLink(destination: DataSettingsView(settingsViewModel: settingsViewModel)) {
-                        Label("Data", systemImage: "externaldrive.fill").labelStyle(SettingsIconStyle(color: .red, size: iconSize))
+                        Label("Data", systemImage: "externaldrive.fill").labelStyle(SettingsIconStyle(color: settingsViewModel.tintColors == .blue ? .red : settingsViewModel.tintColors, size: iconSize))
                     }
                 }
 
