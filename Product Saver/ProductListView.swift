@@ -10,7 +10,7 @@ import SwiftUI
 struct ProductListView: View {
 
     @Environment(\.modelContext) var context
-    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var settingsViewModel: Settings
     @State private var editProduct: Product?
     var data: [Product]
 
@@ -61,5 +61,5 @@ struct ProductListView: View {
     preview.addExamples(Product.sampleProducts)
     return ContentView()
         .modelContainer(preview.container)
-        .environmentObject(SettingsViewModel())
+        .environmentObject(Settings())
 }

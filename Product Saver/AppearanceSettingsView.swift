@@ -11,7 +11,7 @@ import SwiftUI
 struct AppearanceSettingsView: View {
 
     @Environment(\.colorScheme) var colorScheme
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
     @ScaledMetric var iconSize: CGFloat = 1
 
     var body: some View {
@@ -73,5 +73,5 @@ struct AppearanceSettingsView: View {
 }
 
 #Preview {
-    AppearanceSettingsView(settingsViewModel: SettingsViewModel())
+    AppearanceSettingsView(settingsViewModel: Settings())
 }

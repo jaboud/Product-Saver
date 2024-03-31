@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContactDeveloperSectionView: View {
 
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
     @State private var isContactDeveloperOptionsActionSheetPresented = false
     @State private var isShowingCannotFindMailAppAlert = false
 
@@ -84,5 +84,5 @@ struct ContactDeveloperSectionView: View {
 }
 
 #Preview {
-    ContactDeveloperSectionView(settingsViewModel: SettingsViewModel())
+    ContactDeveloperSectionView(settingsViewModel: Settings())
 }

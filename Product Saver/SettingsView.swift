@@ -10,7 +10,7 @@ import SwiftData
 
 struct SettingsView: View {
 
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
     @ScaledMetric var iconSize: CGFloat = 1
 
     var body: some View {
@@ -43,5 +43,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(settingsViewModel: SettingsViewModel())
+    SettingsView(settingsViewModel: Settings())
 }

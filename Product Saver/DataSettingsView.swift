@@ -11,7 +11,7 @@ import SwiftData
 struct DataSettingsView: View {
 
     @Environment(\.modelContext) var context
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
     @Query private var products: [Product]
     @Query private var categories: [Category]
     @State private var showAllDataDeletionConfirmation = false
@@ -137,5 +137,5 @@ struct DataSettingsView: View {
 }
 
 #Preview {
-    DataSettingsView(settingsViewModel: SettingsViewModel())
+    DataSettingsView(settingsViewModel: Settings())
 }

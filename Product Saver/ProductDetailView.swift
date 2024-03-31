@@ -12,7 +12,7 @@ struct ProductDetailView: View {
 
     @Environment(\.modelContext) var context
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var settingsViewModel: Settings
     @State private var confirmProductDeletion = false
     @State private var editProduct: Product?
     @State private var isFullScreen = false
@@ -142,5 +142,5 @@ struct ProductDetailView: View {
     let preview = PreviewContainer(Product.self)
     return ProductDetailView(product: Product.sampleProducts[4])
         .modelContainer(preview.container)
-        .environmentObject(SettingsViewModel())
+        .environmentObject(Settings())
 }

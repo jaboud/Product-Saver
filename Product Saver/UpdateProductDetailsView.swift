@@ -14,7 +14,7 @@ struct UpdateProductDetailsView: View {
     @Bindable var product: Product
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var settingsViewModel: Settings
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
@@ -176,6 +176,6 @@ struct UpdateProductDetailsView: View {
         let preview = PreviewContainer(Product.self)
         return UpdateProductDetailsView(product: Product.sampleProducts[4])
             .modelContainer(preview.container)
-            .environmentObject(SettingsViewModel())
+            .environmentObject(Settings())
     }
 }

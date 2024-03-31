@@ -13,7 +13,7 @@ struct CreateProductDetailsView: View {
 
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var settingsViewModel: SettingsViewModel
+    @EnvironmentObject var settingsViewModel: Settings
     @Query private var categories: [Category]
     @State var selectedCategory: Category?
     @State var selectedPhoto: PhotosPickerItem?
@@ -187,6 +187,6 @@ private extension CreateProductDetailsView {
         let preview = PreviewContainer(Product.self)
         return CreateProductDetailsView()
             .modelContainer(preview.container)
-            .environmentObject(SettingsViewModel())
+            .environmentObject(Settings())
     }
 }

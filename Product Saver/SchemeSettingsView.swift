@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SchemeSettingsView: View {
 
-    @ObservedObject var settingsViewModel: SettingsViewModel
+    @ObservedObject var settingsViewModel: Settings
     
     var body: some View {
         NavigationStack {
@@ -32,5 +32,5 @@ struct SchemeSettingsView: View {
 }
 
 #Preview {
-    SchemeSettingsView(settingsViewModel: SettingsViewModel())
+    SchemeSettingsView(settingsViewModel: Settings())
 }
