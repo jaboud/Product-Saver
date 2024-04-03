@@ -140,7 +140,7 @@ struct DataSettingsView: View {
     func deletedSettingsData(){
         settings.colorSchemeOption = 0
         settings.isGroupingCategories = false
-        settings.isHidingBlankData = true
+        settings.isHidingEmptyProductData = true
         settings.tintColor = 0
         let systemFontSize = UIFont.preferredFont(forTextStyle: .body).pointSize
         let closestFontSize = Settings.FontSize.allCases.min(by: { abs($0.value - systemFontSize) < abs($1.value - systemFontSize) })!

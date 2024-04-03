@@ -21,7 +21,7 @@ struct ContentSettingsView: View {
                     .toggleStyle(SwitchToggleStyle(tint: settings.tintColors == .blue ? .green : settings.tintColors))
                 }
                 Section(footer: Text("Hide empty product data within Product Details.")) {
-                    Toggle(isOn: $settings.isHidingBlankData) {
+                    Toggle(isOn: $settings.isHidingEmptyProductData) {
                         Text("Hide Empty Product Data")
                     }
                     .toggleStyle(SwitchToggleStyle(tint: settings.tintColors == .blue ? .green : settings.tintColors))
