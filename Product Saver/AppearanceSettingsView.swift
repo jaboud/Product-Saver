@@ -20,7 +20,7 @@ struct AppearanceSettingsView: View {
                 Section{
                     NavigationLink(destination: SchemeSettingsView(settings: settings)) {
                         HStack {
-                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .blue : settings.tintColors, size: iconSize))
+                            Label("Scheme", systemImage: "rays").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .gray : settings.tintColors, size: iconSize))
                             Spacer()
                             Text({
                                 switch settings.colorSchemeOption {
@@ -37,8 +37,6 @@ struct AppearanceSettingsView: View {
                             .foregroundStyle(.gray)
                         }
                     }
-                }
-                Section{
                     NavigationLink(destination: TintColorSettingsView(settings: settings)) {
                         HStack {
                             Label("Tint Color", systemImage: "paintbrush.fill").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .orange : settings.tintColors, size: iconSize))
@@ -62,6 +60,16 @@ struct AppearanceSettingsView: View {
                                 }
                             }())
                             .foregroundStyle(.gray)
+                        }
+                    }
+                }
+                Section {
+                    NavigationLink(destination: FontSizeSettingsView().environmentObject(settings)) {
+                        HStack {
+                            Label("Font Size", systemImage: "textformat.size").labelStyle(SettingsIconStyle(color: settings.tintColors == .blue ? .blue : settings.tintColors, size: iconSize))
+                            Spacer()
+                            Text("\(settings.fontSize.fontSizeDescription)")
+                                .foregroundStyle(.gray)
                         }
                     }
                 }
