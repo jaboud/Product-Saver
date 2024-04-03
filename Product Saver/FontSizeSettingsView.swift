@@ -13,7 +13,9 @@ struct FontSizeSettingsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("This is a sample text with the current font size. Adjust the slider to change the font size.")
+                Text("This is a sample text with the current font size. Adjust the slider to change the font size. Default font size is based on system settings.")
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
                 Spacer()
                 ZStack{
                     RoundedRectangle(cornerRadius: 12)
