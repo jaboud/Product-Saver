@@ -17,9 +17,10 @@
 		D06A52132B55558100312716 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52122B55558100312716 /* Product.swift */; };
 		D06A52152B55563A00312716 /* CreateProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52142B55563A00312716 /* CreateProductDetailsView.swift */; };
 		D06A52172B55602B00312716 /* UpdateProductDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */; };
-		D06DBA432BBA2D7A00722EBF /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA402BBA2D7A00722EBF /* PreviewContainer.swift */; };
 		D06DBA442BBA2D7A00722EBF /* SettingsIconStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA412BBA2D7A00722EBF /* SettingsIconStyle.swift */; };
 		D06DBA452BBA2D7A00722EBF /* CameraImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA422BBA2D7A00722EBF /* CameraImage.swift */; };
+		D06DBA472BBA825700722EBF /* FontSizeSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA462BBA825700722EBF /* FontSizeSettingsView.swift */; };
+		D06DBA492BBAD23100722EBF /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06DBA482BBAD23100722EBF /* PreviewContainer.swift */; };
 		D06E12DF2BA8478700216246 /* SchemeSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06E12DE2BA8478700216246 /* SchemeSettingsView.swift */; };
 		D07B653F2B5E3A6600C09132 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07B653E2B5E3A6600C09132 /* Settings.swift */; };
 		D08C3A222BB6E04400C7CB0D /* AboutSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08C3A212BB6E04400C7CB0D /* AboutSectionView.swift */; };
@@ -44,9 +45,10 @@
 		D06A52122B55558100312716 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		D06A52142B55563A00312716 /* CreateProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProductDetailsView.swift; sourceTree = "<group>"; };
 		D06A52162B55602B00312716 /* UpdateProductDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProductDetailsView.swift; sourceTree = "<group>"; };
-		D06DBA402BBA2D7A00722EBF /* PreviewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewContainer.swift; path = "Product Saver/PreviewContainer.swift"; sourceTree = "<group>"; };
 		D06DBA412BBA2D7A00722EBF /* SettingsIconStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsIconStyle.swift; path = "Product Saver/SettingsIconStyle.swift"; sourceTree = "<group>"; };
 		D06DBA422BBA2D7A00722EBF /* CameraImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraImage.swift; path = "Product Saver/CameraImage.swift"; sourceTree = "<group>"; };
+		D06DBA462BBA825700722EBF /* FontSizeSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeSettingsView.swift; sourceTree = "<group>"; };
+		D06DBA482BBAD23100722EBF /* PreviewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewContainer.swift; path = "Product Saver/PreviewContainer.swift"; sourceTree = "<group>"; };
 		D06E12DE2BA8478700216246 /* SchemeSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeSettingsView.swift; sourceTree = "<group>"; };
 		D07B653E2B5E3A6600C09132 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		D08C3A212BB6E04400C7CB0D /* AboutSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSectionView.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				D0EF82692B91D7050077198D /* AppearanceSettingsView.swift */,
 				D06E12DE2BA8478700216246 /* SchemeSettingsView.swift */,
 				D0EF826B2B91F34F0077198D /* TintColorSettingsView.swift */,
+				D06DBA462BBA825700722EBF /* FontSizeSettingsView.swift */,
 			);
 			name = Appearance;
 			sourceTree = "<group>";
@@ -214,7 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				D06DBA422BBA2D7A00722EBF /* CameraImage.swift */,
-				D06DBA402BBA2D7A00722EBF /* PreviewContainer.swift */,
+				D06DBA482BBAD23100722EBF /* PreviewContainer.swift */,
 				D06DBA412BBA2D7A00722EBF /* SettingsIconStyle.swift */,
 			);
 			name = Other;
@@ -291,7 +294,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D06DBA432BBA2D7A00722EBF /* PreviewContainer.swift in Sources */,
+				D06DBA492BBAD23100722EBF /* PreviewContainer.swift in Sources */,
+				D06DBA472BBA825700722EBF /* FontSizeSettingsView.swift in Sources */,
 				D07B653F2B5E3A6600C09132 /* Settings.swift in Sources */,
 				D0EF826C2B91F34F0077198D /* TintColorSettingsView.swift in Sources */,
 				D0424E1E2B5E1605008246B5 /* SettingsView.swift in Sources */,
