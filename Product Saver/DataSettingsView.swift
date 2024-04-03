@@ -37,9 +37,7 @@ struct DataSettingsView: View {
                             buttons: [
                                 .destructive(Text("Delete")) {
                                     withAnimation {
-                                        for data in products {
-                                            context.delete(data)
-                                        }
+                                        deletedProductData()
                                         showProductDataDeletionConfirmation = true
                                     }
                                 },
@@ -62,9 +60,7 @@ struct DataSettingsView: View {
                             buttons: [
                                 .destructive(Text("Delete")) {
                                     withAnimation {
-                                        settings.colorSchemeOption = 0
-                                        settings.isGroupingCategories = false
-                                        settings.tintColor = 0
+                                        deletedSettingsData()
                                         showSettingsDataDeletionConfirmation = true
                                     }
                                 },
@@ -87,15 +83,9 @@ struct DataSettingsView: View {
                             buttons: [
                                 .destructive(Text("Delete")) {
                                     withAnimation {
-                                        for data in products {
-                                            context.delete(data)
-                                        }
-                                        for category in categories {
-                                            context.delete(category)
-                                        }
-                                        settings.colorSchemeOption = 0
-                                        settings.isGroupingCategories = false
-                                        settings.tintColor = 0
+                                        deletedProductData()
+                                        deletedCategoryData()
+                                        deletedSettingsData()
                                         showAllDataDeletionConfirmation = true
                                     }
                                 },
@@ -133,6 +123,28 @@ struct DataSettingsView: View {
             }
         }
 
+    }
+
+    func deletedProductData(){
+        for data in products {
+            context.delete(data)
+        }
+    }
+
+    func deletedCategoryData(){
+        for category in categories {
+            context.delete(category)
+        }
+    }
+
+    func deletedSettingsData(){
+        settings.colorSchemeOption = 0
+        settings.isGroupingCategories = false
+        settings.isHidingBlankData = true
+        settings.tintColor = 0
+        let systemFontSize = UIFont.preferredFont(forTextStyle: .body).pointSize
+        let closestFontSize = Settings.FontSize.allCases.min(by: { abs($0.value - systemFontSize) < abs($1.value - systemFontSize) })!
+        self.settings.fontSize = closestFontSize
     }
 }
 
