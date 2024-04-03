@@ -27,9 +27,9 @@ class Settings: ObservableObject {
         }
     }
 
-    @Published var isHidingBlankData: Bool = true {
+    @Published var isHidingEmptyProductData: Bool = true {
         didSet {
-            UserDefaults.standard.set(isHidingBlankData, forKey: "isHidingBlankData")
+            UserDefaults.standard.set(isHidingEmptyProductData, forKey: "isHidingEmptyProductData")
         }
     }
 
@@ -71,9 +71,9 @@ class Settings: ObservableObject {
 
 
         if UserDefaults.standard.object(forKey: "isHidingBlankData") == nil {
-            self.isHidingBlankData = true
+            self.isHidingEmptyProductData = true
         } else {
-            self.isHidingBlankData = UserDefaults.standard.bool(forKey: "isHidingBlankData")
+            self.isHidingEmptyProductData = UserDefaults.standard.bool(forKey: "isHidingBlankData")
         }
 
         if let fontSizeValue = UserDefaults.standard.object(forKey: "fontSize") as? Int,

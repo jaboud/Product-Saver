@@ -41,14 +41,14 @@ struct ProductDetailView: View {
                                 .foregroundColor(.gray)
                             Text(product.category?.categoryName ?? "None")
                             Divider()
-                            if !(product.desc?.isEmpty == true) || !settings.isHidingBlankData {
+                            if !(product.desc?.isEmpty == true) || !settings.isHidingEmptyProductData {
                                 Label("Description", systemImage: "doc.plaintext")
                                     .foregroundColor(.gray)
                                 Text((product.desc?.isEmpty == true) ? "N/A" : (product.desc ?? "N/A"))
                                     .lineLimit(nil)
                                 Divider()
                             }
-                            if !(product.notes?.isEmpty == true) || !settings.isHidingBlankData {
+                            if !(product.notes?.isEmpty == true) || !settings.isHidingEmptyProductData {
                                 Label("Notes", systemImage: "square.and.pencil")
                                     .foregroundColor(.gray)
                                 Text((product.notes?.isEmpty == true) ? "N/A" : (product.notes ?? "N/A"))
