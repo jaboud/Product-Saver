@@ -33,6 +33,16 @@ struct ProductListView: View {
                             }
                         }
                     }
+                    .sheet(item: $editProduct,
+                           onDismiss: {
+                        editProduct = nil
+                    },
+                           content: { editData in
+                        NavigationStack {
+                            UpdateProductDetailsView(product: editData)
+                                .interactiveDismissDisabled()
+                        }
+                    })
                     .swipeActions {
                         Button(role: .destructive) {
                             withAnimation {
