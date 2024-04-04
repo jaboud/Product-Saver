@@ -45,7 +45,6 @@ struct ContentView: View {
     @Query private var products: [Product]
     @State private var showCreateDetailsView = false
     @State private var showCreateCategoryView = false
-    @State private var editProduct: Product?
     @State private var searchQuery = ""
     @State private var selectedCategories: Set<String> = Set() {
         didSet {
@@ -202,16 +201,6 @@ struct ContentView: View {
                    content: {
                 NavigationStack {
                     CreateProductDetailsView()
-                }
-            })
-            .sheet(item: $editProduct,
-                   onDismiss: {
-                editProduct = nil
-            },
-                   content: { editData in
-                NavigationStack {
-                    UpdateProductDetailsView(product: editData)
-                        .interactiveDismissDisabled()
                 }
             })
             .tabItem {
