@@ -97,127 +97,111 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView {
-            NavigationStack {
-                List {
-                    if products.isEmpty {
-                        ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
-                                               systemImage: "archivebox")
-                    }
-                    else if selectedCategories.isEmpty {
-                        ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
-                    }
-                    else {
-                        if settings.isGroupingCategories && searchQuery.isEmpty {
-                            ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
-                                Section(header: Label(category, systemImage: "folder")) {
-                                    if category == "None" {
-                                        ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
-                                    } else {
-                                        ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
-                                    }
+        NavigationStack {
+            List {
+                if products.isEmpty {
+                    ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
+                                           systemImage: "archivebox")
+                }
+                else if selectedCategories.isEmpty {
+                    ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
+                }
+                else {
+                    if settings.isGroupingCategories && searchQuery.isEmpty {
+                        ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
+                            Section(header: Label(category, systemImage: "folder")) {
+                                if category == "None" {
+                                    ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
+                                } else {
+                                    ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
                                 }
                             }
-                        } else {
-                            ProductListView(data: filteredData)
                         }
+                    } else {
+                        ProductListView(data: filteredData)
                     }
-                }
-                .navigationTitle("Product Saver")
-                .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
-                .overlay {
-                    if !searchQuery.isEmpty && filteredData.isEmpty && !products.isEmpty {
-                        ContentUnavailableView.search
-                    }
-                }
-
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Menu {
-                            Section {
-                                Text("Sort Product")
-                            }
-                            Picker("", selection: $selectedSortOption) {
-                                ForEach(SortOption.allCases, id: \.rawValue) { option in
-                                    if !(settings.isGroupingCategories && option == .Category) {
-                                        Label(option.rawValue.capitalized, systemImage: option.systemImage)
-                                            .tag(option)
-                                    }
-                                }
-                            }
-                            .labelsHidden()
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .symbolVariant(.circle)
-                        }
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Menu {
-                            Section {
-                                if allCategories.isEmpty {
-                                    Text("No categories to filter")
-                                }
-                                else{
-                                    Text("Filter by category")
-                                }
-                            }
-                            ForEach(allCategories, id: \.self) { category in
-                                Toggle(isOn: Binding(
-                                    get: { self.selectedCategories.contains(category) },
-                                    set: { if $0 { self.selectedCategories.insert(category) } else { self.selectedCategories.remove(category) } }
-                                )) {
-                                    Text(category)
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "line.horizontal.3.decrease.circle")
-                                .symbolVariant(.circle)
-                        }
-                    }
-                }
-                .safeAreaInset(edge: .bottom,
-                               alignment: .leading) {
-                    Button(action: {
-                        showCreateDetailsView.toggle()
-                    }, label: {
-                        Label("New Product", systemImage: "plus")
-                            .bold()
-                            .font(.title2)
-                            .padding(8)
-                            .background(
-                                Color(UIColor.systemBackground).colorInvert()
-                            )
-                            .clipShape(Capsule())
-                            .padding(.leading)
-                            .symbolVariant(.circle.fill)
-                    })
-
                 }
             }
-            .searchable(text: $searchQuery, prompt: "Filter Product by Item or Brand")
-            .sheet(isPresented: $showCreateDetailsView,
-                   content: {
-                NavigationStack {
-                    CreateProductDetailsView()
+            .navigationTitle("Product Saver")
+            .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
+            .overlay {
+                if !searchQuery.isEmpty && filteredData.isEmpty && !products.isEmpty {
+                    ContentUnavailableView.search
                 }
-            })
-            .tabItem {
-                Image(systemName: "house")
-                Text("Home")
             }
-            CategoriesView(selectedCategories: $selectedCategories)
-                .tabItem {
-                    Image(systemName: "folder")
-                    Text("Category")
+
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Section {
+                            Text("Sort Product")
+                        }
+                        Picker("", selection: $selectedSortOption) {
+                            ForEach(SortOption.allCases, id: \.rawValue) { option in
+                                if !(settings.isGroupingCategories && option == .Category) {
+                                    Label(option.rawValue.capitalized, systemImage: option.systemImage)
+                                        .tag(option)
+                                }
+                            }
+                        }
+                        .labelsHidden()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .symbolVariant(.circle)
+                    }
                 }
-            SettingsView(settings: settings)
-                .tabItem {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Section {
+                            if allCategories.isEmpty {
+                                Text("No categories to filter")
+                            }
+                            else{
+                                Text("Filter by category")
+                            }
+                        }
+                        ForEach(allCategories, id: \.self) { category in
+                            Toggle(isOn: Binding(
+                                get: { self.selectedCategories.contains(category) },
+                                set: { if $0 { self.selectedCategories.insert(category) } else { self.selectedCategories.remove(category) } }
+                            )) {
+                                Text(category)
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "line.horizontal.3.decrease.circle")
+                            .symbolVariant(.circle)
+                    }
                 }
+            }
+            .safeAreaInset(edge: .bottom,
+                           alignment: .leading) {
+                Button(action: {
+                    showCreateDetailsView.toggle()
+                }, label: {
+                    Label("New Product", systemImage: "plus")
+                        .bold()
+                        .font(.title2)
+                        .padding(8)
+                        .background(
+                            Color(UIColor.systemBackground).colorInvert()
+                        )
+                        .clipShape(Capsule())
+                        .padding(.leading)
+                        .symbolVariant(.circle.fill)
+                })
+
+            }
         }
+        .searchable(text: $searchQuery, prompt: "Filter Product by Item or Brand")
+        .sheet(isPresented: $showCreateDetailsView,
+               content: {
+            NavigationStack {
+                CreateProductDetailsView()
+            }
+        })
     }
 }
 
