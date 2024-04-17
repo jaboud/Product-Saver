@@ -218,7 +218,6 @@ struct ContentView: View {
                     Text("Settings")
                 }
         }
-        .font(.system(size: settings.fontSize.value))
     }
 }
 
