@@ -8,28 +8,27 @@
 import Foundation
 
 enum SortProduct: String, CaseIterable {
-    case RecentlyAdded = "Recently Added"
-    case Oldest
-    case Item
-    case Brand
-    case Category
+    case recentlyAdded = "Recently Added"
+    case oldest = "Oldest"
+    case item = "Item"
+    case brand = "Brand"
+    case Category = "Category"
 }
 
 extension SortProduct {
 
     var systemImage: String {
         switch self {
-        case .RecentlyAdded:
+        case .recentlyAdded:
             "clock.arrow.circlepath"
-        case .Oldest:
+        case .oldest:
             "clock.arrow.2.circlepath"
-        case .Item:
+        case .item:
             "tag"
-        case .Brand:
+        case .brand:
             "building"
         case .Category:
             "folder"
-
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftData
 
 struct ContentView: View {
 
-    @AppStorage("selectedSortOption") private var selectedSortOption: SortProduct = .RecentlyAdded
+    @AppStorage("selectedSortOption") private var selectedSortOption: SortProduct = .recentlyAdded
     @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
@@ -182,13 +182,13 @@ private extension [Product] {
 
     func sort(on option: SortProduct) -> [Product] {
         switch option {
-        case .RecentlyAdded:
+        case .recentlyAdded:
             return self.sorted(by: { $0.id > $1.id })
-        case .Oldest:
+        case .oldest:
             return self.sorted(by: { $0.id < $1.id })
-        case .Item:
+        case .item:
             return self.sorted(by: { $0.itemName.compare($1.itemName, options: .caseInsensitive) == .orderedAscending })
-        case .Brand:
+        case .brand:
             return self.sorted(by: { $0.brandName.compare($1.brandName, options: .caseInsensitive) == .orderedAscending })
         case .Category:
             return self.sorted(by: {
