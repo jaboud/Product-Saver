@@ -8,33 +8,6 @@
 import SwiftUI
 import SwiftData
 
-enum SortOption: String, CaseIterable {
-    case RecentlyAdded = "Recently Added"
-    case Oldest
-    case Item
-    case Brand
-    case Category
-}
-
-extension SortOption {
-
-    var systemImage: String {
-        switch self {
-        case .RecentlyAdded:
-            "clock.arrow.circlepath"
-        case .Oldest:
-            "clock.arrow.2.circlepath"
-        case .Item:
-            "tag"
-        case .Brand:
-            "building"
-        case .Category:
-            "folder"
-
-        }
-    }
-}
-
 struct ContentView: View {
 
     @AppStorage("selectedSortOption") private var selectedSortOption: SortOption = .RecentlyAdded
