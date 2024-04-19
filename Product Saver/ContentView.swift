@@ -10,7 +10,7 @@ import SwiftData
 
 struct ContentView: View {
 
-    @AppStorage("selectedSortOption") private var selectedSortOption: SortOption = .RecentlyAdded
+    @AppStorage("selectedSortOption") private var selectedSortOption: SortProduct = .RecentlyAdded
     @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
@@ -110,7 +110,7 @@ struct ContentView: View {
                             Text("Sort Product")
                         }
                         Picker("", selection: $selectedSortOption) {
-                            ForEach(SortOption.allCases, id: \.rawValue) { option in
+                            ForEach(SortProduct.allCases, id: \.rawValue) { option in
                                 if !(settings.isGroupingCategories && option == .Category) {
                                     Label(option.rawValue.capitalized, systemImage: option.systemImage)
                                         .tag(option)
@@ -180,7 +180,7 @@ struct ContentView: View {
 
 private extension [Product] {
 
-    func sort(on option: SortOption) -> [Product] {
+    func sort(on option: SortProduct) -> [Product] {
         switch option {
         case .RecentlyAdded:
             return self.sorted(by: { $0.id > $1.id })
