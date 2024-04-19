@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SortOption: String, CaseIterable {
+enum SortProduct: String, CaseIterable {
     case RecentlyAdded = "Recently Added"
     case Oldest
     case Item
@@ -15,7 +15,7 @@ enum SortOption: String, CaseIterable {
     case Category
 }
 
-extension SortOption {
+extension SortProduct {
 
     var systemImage: String {
         switch self {
