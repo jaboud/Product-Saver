@@ -19,19 +19,7 @@ struct ProductListView: View {
             Section {
                 NavigationLink(destination: ProductDetailView(product: product)) {
                     HStack {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Label("Item Name", systemImage: "tag")
-                                .foregroundColor(.gray)
-                            Text(product.itemName)
-                            Label("Brand Name", systemImage: "building")
-                                .foregroundStyle(.gray)
-                            Text(product.brandName)
-                            if !settings.isGroupingCategories {
-                                Label("Category", systemImage: "folder")
-                                    .foregroundStyle(.gray)
-                                Text(product.category?.categoryName ?? "None")
-                            }
-                        }
+                        ProductRowView(product: product)
                     }
                     .sheet(item: $editProduct,
                            onDismiss: {
@@ -61,6 +49,27 @@ struct ProductListView: View {
                         .tint(.orange)
                     }
                 }
+            }
+        }
+    }
+}
+
+struct ProductRowView: View {
+    var product: Product
+    @EnvironmentObject var settings: Settings
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label("Item Name", systemImage: "tag")
+                .foregroundColor(.gray)
+            Text(product.itemName)
+            Label("Brand Name", systemImage: "building")
+                .foregroundStyle(.gray)
+            Text(product.brandName)
+            if !settings.isGroupingCategories {
+                Label("Category", systemImage: "folder")
+                    .foregroundStyle(.gray)
+                Text(product.category?.categoryName ?? "None")
             }
         }
     }
