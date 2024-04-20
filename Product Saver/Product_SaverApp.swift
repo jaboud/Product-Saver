@@ -12,11 +12,7 @@ import SwiftData
 struct Product_SaverApp: App {
 
     @StateObject private var settings = Settings()
-    @State private var selectedCategories: Set<String> = Set() {
-        didSet {
-            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
-        }
-    }
+    @State private var selectedCategories: Set<String> = Set()
 
     var body: some Scene {
         WindowGroup {
