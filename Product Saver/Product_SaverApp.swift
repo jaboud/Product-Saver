@@ -13,25 +13,29 @@ struct Product_SaverApp: App {
 
     @StateObject private var settings = Settings()
     @State private var selectedCategories: Set<String> = Set()
+    @State private var selectedTab = 0
 
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $selectedTab) {
                 ContentView()
                     .tabItem {
-                        Image(systemName: "house")
-                        Text("Home")
+                        Label("Home", systemImage: selectedTab == 0 ? "house.fill" : "house")
+                            .environment(\.symbolVariants, .none)
                     }
+                    .tag(0)
                 CategoriesView(selectedCategories: $selectedCategories)
                     .tabItem {
-                        Image(systemName: "folder")
-                        Text("Category")
+                        Label("Category", systemImage: selectedTab == 1 ? "folder.fill" : "folder")
+                            .environment(\.symbolVariants, .none)
                     }
+                    .tag(1)
                 SettingsView(settings: settings)
                     .tabItem {
-                        Image(systemName: "gearshape")
-                        Text("Settings")
+                        Label("Settings", systemImage: selectedTab == 2 ? "gearshape.fill" : "gearshape")
+                            .environment(\.symbolVariants, .none)
                     }
+                    .tag(2)
             }
             .modelContainer(for: Product.self)
             .environmentObject(settings)
