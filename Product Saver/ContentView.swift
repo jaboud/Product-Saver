@@ -69,33 +69,49 @@ struct ContentView: View {
         return Array(uniqueCategories)
     }
 
+    var groupedData: [String: [Product]] {
+        if settings.isGroupingProducts && searchQuery.isEmpty {
+            if settings.groupProductBy == "Item" {
+                return Dictionary(grouping: filteredData) { String($0.itemName.prefix(1)) }
+            } else if settings.groupProductBy == "Brand" {
+                return Dictionary(grouping: filteredData) { String($0.brandName.prefix(1)) }
+            }
+        }
+        return [:]
+    }
+
     var body: some View {
         NavigationStack {
             List {
-                if products.isEmpty {
-                    ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
-                                           systemImage: "archivebox")
-                }
-                else if selectedCategories.isEmpty {
-                    ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
-                }
-                else {
-                    if settings.isGroupingCategories && searchQuery.isEmpty {
-                        ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
-                            Section(header: Label(category, systemImage: "folder")) {
-                                if category == "None" {
-                                    ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
-                                } else {
-                                    ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
+                        if products.isEmpty {
+                            ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
+                                                   systemImage: "archivebox")
+                        }
+                        else if selectedCategories.isEmpty {
+                            ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
+                        }
+                        else {
+                            if !groupedData.isEmpty {
+                                ForEach(groupedData.keys.sorted(), id: \.self) { key in
+                                    Section(header: Text(key)) {
+                                        ProductListView(data: groupedData[key] ?? [])
+                                    }
                                 }
+                            } else if settings.isGroupingCategories && searchQuery.isEmpty {
+                                ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
+                                    Section(header: Label(category, systemImage: "folder")) {
+                                        if category == "None" {
+                                            ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
+                                        } else {
+                                            ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
+                                        }
+                                    }
+                                }
+                            } else {
+                                ProductListView(data: filteredData)
                             }
                         }
-                    } else {
-                        ProductListView(data: filteredData)
-                    }
-                }
-            }
-            .navigationTitle("Product Saver")
+                    }            .navigationTitle("Product Saver")
             .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
             .overlay {
                 if !searchQuery.isEmpty && filteredData.isEmpty && !products.isEmpty {

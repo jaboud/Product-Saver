@@ -8,6 +8,19 @@
 import SwiftUI
 
 class Settings: ObservableObject {
+
+    @Published var isGroupingProducts: Bool = false {
+        didSet {
+            UserDefaults.standard.set(isGroupingProducts, forKey: "isGroupingProducts")
+        }
+    }
+
+    @Published var groupProductBy: String {
+        didSet {
+            UserDefaults.standard.set(groupProductBy, forKey: "groupProductBy")
+        }
+    }
+
     @Published var colorSchemeOption: Int {
         didSet {
             UserDefaults.standard.set(colorSchemeOption, forKey: "colorSchemeOption")
@@ -83,6 +96,18 @@ class Settings: ObservableObject {
             let systemFontSize = UIFont.preferredFont(forTextStyle: .body).pointSize
             let closestFontSize = FontSize.allCases.min(by: { abs($0.value - systemFontSize) < abs($1.value - systemFontSize) })!
             self.fontSize = closestFontSize
+        }
+
+        if UserDefaults.standard.object(forKey: "isGroupingProducts") == nil {
+            self.isGroupingProducts = false
+        } else {
+            self.isGroupingProducts = UserDefaults.standard.bool(forKey: "isGroupingProducts")
+        }
+
+        if let groupProductByValue = UserDefaults.standard.object(forKey: "groupProductBy") as? String {
+            self.groupProductBy = groupProductByValue
+        } else {
+            self.groupProductBy = "Item"
         }
     }
 
