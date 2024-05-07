@@ -24,7 +24,7 @@ struct ContentSettingsView: View {
                     if settings.isGroupingProducts {
                         NavigationLink(destination: GroupProductsSettingsView(settings: settings)) {
                             HStack {
-                                Text("Group Proudct by")
+                                Text("Group Prouduct by")
                                 Spacer()
                                 Text(settings.groupProductBy)
                                     .foregroundStyle(.gray)
