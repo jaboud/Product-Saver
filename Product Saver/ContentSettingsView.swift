@@ -15,7 +15,7 @@ struct ContentSettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(footer: Text("Group products together, arranging them alphabetically either by item or brand name. This option enables the choice between 'Item' or 'Brand' for the grouping criteria.")) {
+                Section(footer: Text("Group products together, arranging them alphabetically either by item or brand name.")) {
                     Toggle(isOn: $settings.isGroupingProducts) {
                         Text("Group Products")
                     }
@@ -32,7 +32,7 @@ struct ContentSettingsView: View {
                         }
                     }
                 }
-                Section(footer: Text("Group categories together with the list of products. Filtering Categories will be disabled when this option is enabled.")) {
+                Section(footer: Text("Group categories together, arranging them alphabetically for the linked product. Filtering Categories will be disabled when this toggle is enabled.")) {
                     Toggle(isOn: $settings.isGroupingCategories) {
                         Text("Group Categories")
                     }
