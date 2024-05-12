@@ -24,6 +24,7 @@ struct ContentView: View {
             UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
         }
     }
+    @State private var selectedTab = 0
 
     init() {
         if let storedSelectedCategories = UserDefaults.standard.array(forKey: "selectedCategories") as? [String] {
@@ -81,44 +82,45 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                if (!filteredData.isEmpty) && (settings.isGroupingProducts || settings.isGroupingCategories) {
-                    Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
-                        .font(.headline)
-                }
-                List {
-                    if products.isEmpty {
-                        ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
-                                               systemImage: "archivebox")
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                VStack {
+                    if (!filteredData.isEmpty) && (settings.isGroupingProducts || settings.isGroupingCategories) {
+                        Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
+                            .font(.headline)
                     }
-                    else if selectedCategories.isEmpty {
-                        ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
-                    }
-                    else {
-                        if !groupedData.isEmpty {
-                            ForEach(groupedData.keys.sorted(), id: \.self) { key in
-                                Section(header: Label(key, systemImage: settings.groupProductBy == "Item" ? "tag" : "building")) {
-                                    ProductListView(data: groupedData[key] ?? [])
-                                }
-                            }
-                        } else if settings.isGroupingCategories && searchQuery.isEmpty {
-                            ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
-                                Section(header: Label(category, systemImage: "folder")) {
-                                    if category == "None" {
-                                        ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
-                                    } else {
-                                        ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
+                    List {
+                        if products.isEmpty {
+                            ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
+                                                   systemImage: "archivebox")
+                        }
+                        else if selectedCategories.isEmpty {
+                            ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
+                        }
+                        else {
+                            if !groupedData.isEmpty {
+                                ForEach(groupedData.keys.sorted(), id: \.self) { key in
+                                    Section(header: Label(key, systemImage: settings.groupProductBy == "Item" ? "tag" : "building")) {
+                                        ProductListView(data: groupedData[key] ?? [])
                                     }
                                 }
+                            } else if settings.isGroupingCategories && searchQuery.isEmpty {
+                                ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
+                                    Section(header: Label(category, systemImage: "folder")) {
+                                        if category == "None" {
+                                            ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
+                                        } else {
+                                            ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
+                                        }
+                                    }
+                                }
+                            } else {
+                                ProductListView(data: filteredData)
                             }
-                        } else {
-                            ProductListView(data: filteredData)
                         }
                     }
                 }
-            }
-            .navigationTitle("Product Saver")
+                .navigationTitle("Product Saver")
                 .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
                 .overlay {
                     if !searchQuery.isEmpty && filteredData.isEmpty && !products.isEmpty {
@@ -190,6 +192,24 @@ struct ContentView: View {
                     })
 
                 }
+            }
+            .tabItem {
+                Label("Home", systemImage: selectedTab == 0 ? "house.fill" : "house")
+                    .environment(\.symbolVariants, .none)
+            }
+            .tag(0)
+            CategoriesView(selectedCategories: $selectedCategories)
+                .tabItem {
+                    Label("Category", systemImage: selectedTab == 1 ? "folder.fill" : "folder")
+                        .environment(\.symbolVariants, .none)
+                }
+                .tag(1)
+            SettingsView(settings: settings)
+                .tabItem {
+                    Label("Settings", systemImage: selectedTab == 2 ? "gearshape.fill" : "gearshape")
+                        .environment(\.symbolVariants, .none)
+                }
+                .tag(2)
         }
         .searchable(text: $searchQuery, prompt: "Filter Product by Item or Brand")
         .sheet(isPresented: $showCreateDetailsView,
