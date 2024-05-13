@@ -11,31 +11,14 @@ import SwiftData
 struct ContentView: View {
 
     @AppStorage("selectedSortOption") private var selectedSortOption: SortProduct = .recentlyAdded
-    @AppStorage("selectedCategories") private var storedSelectedCategoriesData: Data = Data()
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var context
     @EnvironmentObject var settings: Settings
     @Query private var products: [Product]
+    @State private var editProduct: Product?
     @State private var showCreateDetailsView = false
-    @State private var showCreateCategoryView = false
     @State private var searchQuery = ""
-    @State private var selectedCategories: Set<String> = Set() {
-        didSet {
-            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
-        }
-    }
     @State private var selectedTab = 0
-
-    init() {
-        if let storedSelectedCategories = UserDefaults.standard.array(forKey: "selectedCategories") as? [String] {
-            _selectedCategories = State(initialValue: Set(storedSelectedCategories))
-        } else {
-            var categories = Set(allCategories)
-            categories.insert("None")
-            _selectedCategories = State(initialValue: categories)
-            UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
-        }
-    }
 
     var filteredData: [Product] {
         var data = products
@@ -49,29 +32,13 @@ struct ContentView: View {
             }
         }
 
-        if !selectedCategories.isEmpty {
-            data = data.filter { product in
-                guard let category = product.category?.categoryName else {
-                    return selectedCategories.contains("None")
-                }
-                return selectedCategories.contains(category)
-            }
-        }
-
         return data.sort(on: selectedSortOption)
     }
 
-    var allCategories: [String] {
-        var categories = products.compactMap { $0.category?.categoryName }
-        if products.contains(where: { $0.category?.categoryName == nil }) {
-            categories.append("None")
-        }
-        let uniqueCategories = Set(categories)
-        return Array(uniqueCategories)
-    }
-
     var groupedData: [String: [Product]] {
-        if settings.isGroupingProducts && searchQuery.isEmpty {
+        if settings.isGroupingCategories {
+            return Dictionary(grouping: filteredData) { $0.category?.categoryName ?? "None" }
+        } else if settings.isGroupingProducts && searchQuery.isEmpty {
             if settings.groupProductBy == "Item" {
                 return Dictionary(grouping: filteredData) { String($0.itemName.prefix(1)) }
             } else if settings.groupProductBy == "Brand" {
@@ -81,41 +48,83 @@ struct ContentView: View {
         return [:]
     }
 
+    func productListView(products: [Product]) -> some View {
+        ForEach(products) { product in
+            Section {
+                NavigationLink(destination: ProductDetailView(product: product)) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Label("Item Name", systemImage: "tag")
+                                .foregroundColor(.gray)
+                            Text(product.itemName)
+                            Label("Brand Name", systemImage: "building")
+                                .foregroundStyle(.gray)
+                            Text(product.brandName)
+                            Label("Category", systemImage: "folder")
+                                .foregroundStyle(.gray)
+                            Text(product.category?.categoryName ?? "None")
+                        }
+                    }
+                    .sheet(item: $editProduct,
+                           onDismiss: {
+                        editProduct = nil
+                    },
+                           content: { editData in
+                        NavigationStack {
+                            UpdateProductDetailsView(product: editData)
+                                .interactiveDismissDisabled()
+                        }
+                    })
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            withAnimation {
+                                context.delete(product)
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                                .symbolVariant(.fill)
+                        }
+
+                        Button {
+                            editProduct = product
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.orange)
+                    }
+                }
+            }
+        }
+    }
+
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
                 VStack {
                     if (!filteredData.isEmpty) && (settings.isGroupingProducts || settings.isGroupingCategories) {
-                        Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
-                            .font(.headline)
+                        Section {
+                            Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
+                                                  .font(.headline)
+                                .font(.headline)
+                        }
                     }
                     List {
                         if products.isEmpty {
                             ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
                                                    systemImage: "archivebox")
                         }
-                        else if selectedCategories.isEmpty {
-                            ContentUnavailableView("You are currently hiding all categories", systemImage: "exclamationmark.triangle")
-                        }
                         else {
                             if !groupedData.isEmpty {
                                 ForEach(groupedData.keys.sorted(), id: \.self) { key in
-                                    Section(header: Label(key, systemImage: settings.groupProductBy == "Item" ? "tag" : "building")) {
-                                        ProductListView(data: groupedData[key] ?? [])
+                                    Section(header: settings.isGroupingCategories ?
+                                            Label(key, systemImage: "folder") :
+                                                Label(key, systemImage: settings.groupProductBy == "Item" ? "tag" : "building")) {
+                                        productListView(products: groupedData[key] ?? [])
                                     }
                                 }
-                            } else if settings.isGroupingCategories && searchQuery.isEmpty {
-                                ForEach(allCategories.filter { selectedCategories.contains($0) }.sorted(), id: \.self) { category in
-                                    Section(header: Label(category, systemImage: "folder")) {
-                                        if category == "None" {
-                                            ProductListView(data: filteredData.filter { $0.category?.categoryName == nil })
-                                        } else {
-                                            ProductListView(data: filteredData.filter { $0.category?.categoryName == category })
-                                        }
-                                    }
-                                }
-                            } else {
-                                ProductListView(data: filteredData)
+                            }
+                            else {
+                                productListView(products: filteredData)
                             }
                         }
                     }
@@ -136,40 +145,13 @@ struct ContentView: View {
                             }
                             Picker("", selection: $selectedSortOption) {
                                 ForEach(SortProduct.allCases, id: \.rawValue) { option in
-                                    if !(settings.isGroupingCategories && option == .Category) {
-                                        Label(option.rawValue.capitalized, systemImage: option.systemImage)
-                                            .tag(option)
-                                    }
+                                    Label(option.rawValue.capitalized, systemImage: option.systemImage)
+                                        .tag(option)
                                 }
                             }
                             .labelsHidden()
                         } label: {
                             Image(systemName: "ellipsis")
-                                .symbolVariant(.circle)
-                        }
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Menu {
-                            Section {
-                                if allCategories.isEmpty {
-                                    Text("No categories to filter")
-                                }
-                                else{
-                                    Text("Filter by category")
-                                }
-                            }
-                            ForEach(allCategories, id: \.self) { category in
-                                Toggle(isOn: Binding(
-                                    get: { self.selectedCategories.contains(category) },
-                                    set: { if $0 { self.selectedCategories.insert(category) } else { self.selectedCategories.remove(category) } }
-                                )) {
-                                    Text(category)
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "line.horizontal.3.decrease.circle")
                                 .symbolVariant(.circle)
                         }
                     }
@@ -198,7 +180,7 @@ struct ContentView: View {
                     .environment(\.symbolVariants, .none)
             }
             .tag(0)
-            CategoriesView(selectedCategories: $selectedCategories)
+            CategoriesView()
                 .tabItem {
                     Label("Category", systemImage: selectedTab == 1 ? "folder.fill" : "folder")
                         .environment(\.symbolVariants, .none)

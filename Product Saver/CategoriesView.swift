@@ -35,7 +35,6 @@ extension SortCategory {
 struct CategoriesView: View {
 
     @AppStorage("selectedSortCategory") private var selectedSortCategory: SortCategory = .RecentlyAdded
-    @Binding var selectedCategories: Set<String>
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @Query private var categories: [Category]
@@ -55,8 +54,6 @@ struct CategoriesView: View {
                                 context.insert(category)
                                 category.products = []
                                 categoryName = ""
-                                selectedCategories.insert(category.categoryName)
-                                UserDefaults.standard.set(Array(selectedCategories), forKey: "selectedCategories")
                             } else {
                                 showDuplicatedCategoryAlert = true
                             }
@@ -133,6 +130,6 @@ private extension [Category] {
         let preview = PreviewContainer(Category.self)
         let selectedCategories = Binding.constant(Set<String>())
         preview.addExamples(Category.sampleCategories)
-    return CategoriesView(selectedCategories: selectedCategories)
+    return CategoriesView()
             .modelContainer(preview.container)
 }
