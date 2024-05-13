@@ -9,13 +9,14 @@ import SwiftData
 
 @Model
 class Category {
-    @Attribute(.unique)
 
-    var categoryName: String
+    var categoryName: String = ""
+    var isSelected: Bool = true
     var products: [Product]?
 
     init(categoryName: String = "") {
         self.categoryName = categoryName
+        self.isSelected = isSelected
     }
 }
 
