@@ -127,9 +127,8 @@ private extension [Category] {
 }
 
 #Preview {
-        let preview = PreviewContainer(Category.self)
-        let selectedCategories = Binding.constant(Set<String>())
-        preview.addExamples(Category.sampleCategories)
+    let preview = PreviewContainer(Category.self)
+    preview.addExamples(Category.sampleCategories)
     return CategoriesView()
-            .modelContainer(preview.container)
+        .modelContainer(preview.container)
 }
