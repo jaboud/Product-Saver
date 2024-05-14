@@ -18,7 +18,6 @@ struct ContentView: View {
     @State private var editProduct: Product?
     @State private var showCreateDetailsView = false
     @State private var searchQuery = ""
-    @State private var selectedTab = 0
 
     var filteredData: [Product] {
         var data = products
@@ -98,100 +97,80 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            NavigationStack {
-                VStack {
-                    if (!filteredData.isEmpty) && (settings.isGroupingProducts || settings.isGroupingCategories) {
-                        Section {
-                            Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
-                                                  .font(.headline)
-                                .font(.headline)
-                        }
+        NavigationStack {
+            VStack {
+                if (!filteredData.isEmpty) && (settings.isGroupingProducts || settings.isGroupingCategories) {
+                    Section {
+                        Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
+                            .font(.headline)
+                            .font(.headline)
                     }
-                    List {
-                        if products.isEmpty {
-                            ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
-                                                   systemImage: "archivebox")
+                }
+                List {
+                    if products.isEmpty {
+                        ContentUnavailableView("No products listed. Start adding brands by tapping 'New Product'",
+                                               systemImage: "archivebox")
+                    }
+                    else {
+                        if !groupedData.isEmpty {
+                            ForEach(groupedData.keys.sorted(), id: \.self) { key in
+                                Section(header: settings.isGroupingCategories ?
+                                        Label(key, systemImage: "folder") :
+                                            Label(key, systemImage: settings.groupProductBy == "Item" ? "tag" : "building")) {
+                                    productListView(products: groupedData[key] ?? [])
+                                }
+                            }
                         }
                         else {
-                            if !groupedData.isEmpty {
-                                ForEach(groupedData.keys.sorted(), id: \.self) { key in
-                                    Section(header: settings.isGroupingCategories ?
-                                            Label(key, systemImage: "folder") :
-                                                Label(key, systemImage: settings.groupProductBy == "Item" ? "tag" : "building")) {
-                                        productListView(products: groupedData[key] ?? [])
-                                    }
-                                }
-                            }
-                            else {
-                                productListView(products: filteredData)
-                            }
+                            productListView(products: filteredData)
                         }
                     }
                 }
-                .navigationTitle("Product Saver")
-                .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
-                .overlay {
-                    if !searchQuery.isEmpty && filteredData.isEmpty && !products.isEmpty {
-                        ContentUnavailableView.search
-                    }
+            }
+            .navigationTitle("Product Saver")
+            .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: filteredData)
+            .overlay {
+                if !searchQuery.isEmpty && filteredData.isEmpty && !products.isEmpty {
+                    ContentUnavailableView.search
                 }
+            }
 
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Menu {
-                            Section {
-                                Text("Sort Product")
-                            }
-                            Picker("", selection: $selectedSortOption) {
-                                ForEach(SortProduct.allCases, id: \.rawValue) { option in
-                                    Label(option.rawValue.capitalized, systemImage: option.systemImage)
-                                        .tag(option)
-                                }
-                            }
-                            .labelsHidden()
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .symbolVariant(.circle)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Section {
+                            Text("Sort Product")
                         }
+                        Picker("", selection: $selectedSortOption) {
+                            ForEach(SortProduct.allCases, id: \.rawValue) { option in
+                                Label(option.rawValue.capitalized, systemImage: option.systemImage)
+                                    .tag(option)
+                            }
+                        }
+                        .labelsHidden()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .symbolVariant(.circle)
                     }
                 }
-                .safeAreaInset(edge: .bottom,
-                               alignment: .leading) {
-                    Button(action: {
-                        showCreateDetailsView.toggle()
-                    }, label: {
-                        Label("New Product", systemImage: "plus")
-                            .bold()
-                            .font(.title2)
-                            .padding(8)
-                            .background(
-                                Color(UIColor.systemBackground).colorInvert()
-                            )
-                            .clipShape(Capsule())
-                            .padding(.leading)
-                            .symbolVariant(.circle.fill)
-                    })
-
-                }
             }
-            .tabItem {
-                Label("Home", systemImage: selectedTab == 0 ? "house.fill" : "house")
-                    .environment(\.symbolVariants, .none)
+            .safeAreaInset(edge: .bottom,
+                           alignment: .leading) {
+                Button(action: {
+                    showCreateDetailsView.toggle()
+                }, label: {
+                    Label("New Product", systemImage: "plus")
+                        .bold()
+                        .font(.title2)
+                        .padding(8)
+                        .background(
+                            Color(UIColor.systemBackground).colorInvert()
+                        )
+                        .clipShape(Capsule())
+                        .padding(.leading)
+                        .symbolVariant(.circle.fill)
+                })
             }
-            .tag(0)
-            CategoriesView()
-                .tabItem {
-                    Label("Category", systemImage: selectedTab == 1 ? "folder.fill" : "folder")
-                        .environment(\.symbolVariants, .none)
-                }
-                .tag(1)
-            SettingsView(settings: settings)
-                .tabItem {
-                    Label("Settings", systemImage: selectedTab == 2 ? "gearshape.fill" : "gearshape")
-                        .environment(\.symbolVariants, .none)
-                }
-                .tag(2)
         }
         .searchable(text: $searchQuery, prompt: "Filter Product by Item or Brand")
         .sheet(isPresented: $showCreateDetailsView,
