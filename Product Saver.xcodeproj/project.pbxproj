@@ -57,6 +57,8 @@
 		D08F863C2BE79AD700CE3D9C /* GroupProductsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupProductsSettingsView.swift; sourceTree = "<group>"; };
 		D0900B402B9F143300A66E44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0E08A132BD29D9E00161DE2 /* SortProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortProduct.swift; sourceTree = "<group>"; };
+		D0E228FD2BF253FA00ED8305 /* Product Saver.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Product Saver.entitlements"; sourceTree = "<group>"; };
+		D0E228FE2BF2540B00ED8305 /* Product-Saver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Product-Saver-Info.plist"; sourceTree = SOURCE_ROOT; };
 		D0EF82692B91D7050077198D /* AppearanceSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingsView.swift; sourceTree = "<group>"; };
 		D0EF826B2B91F34F0077198D /* TintColorSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorSettingsView.swift; sourceTree = "<group>"; };
 		D0EF826D2B91FE290077198D /* ContentSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSettingsView.swift; sourceTree = "<group>"; };
@@ -93,6 +95,8 @@
 		D06A52012B55555D00312716 /* Product Saver */ = {
 			isa = PBXGroup;
 			children = (
+				D0E228FE2BF2540B00ED8305 /* Product-Saver-Info.plist */,
+				D0E228FD2BF253FA00ED8305 /* Product Saver.entitlements */,
 				D06A52022B55555D00312716 /* Product_SaverApp.swift */,
 				D0900B402B9F143300A66E44 /* Assets.xcassets */,
 				D06A52082B55555F00312716 /* Preview Content */,
@@ -450,12 +454,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Product Saver/Product Saver.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Product Saver/Preview Content\"";
 				DEVELOPMENT_TEAM = RYWX39QT5N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Product-Saver-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs to capture an image for the product.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -486,12 +492,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Product Saver/Product Saver.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Product Saver/Preview Content\"";
 				DEVELOPMENT_TEAM = RYWX39QT5N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Product-Saver-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs to capture an image for the product.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
