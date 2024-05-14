@@ -10,7 +10,7 @@ import SwiftData
 @Model
 class Category {
 
-    var categoryName: String = ""
+    var categoryName: String = "" 
     var isSelected: Bool = true
     var products: [Product]?
 

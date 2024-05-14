@@ -11,8 +11,8 @@ import UIKit
 
 @Model
 final class Product {
-    var itemName: String
-    var brandName: String
+    var itemName: String = ""
+    var brandName: String = ""
     var desc: String?
     var notes: String?
 
