@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AboutSectionView: View {
+struct AboutView: View {
     var body: some View {
         Section(header: Label("About", systemImage: "info.circle")) {
             VStack(alignment: .leading, spacing: 10) {
@@ -37,5 +37,5 @@ struct AboutSectionView: View {
 }
 
 #Preview {
-    AboutSectionView()
+    AboutView()
 }
