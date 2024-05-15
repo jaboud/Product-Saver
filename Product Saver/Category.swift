@@ -16,7 +16,6 @@ class Category {
 
     init(categoryName: String = "") {
         self.categoryName = categoryName
-        self.isSelected = isSelected
     }
 }
 
