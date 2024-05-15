@@ -32,9 +32,9 @@ struct SettingsView: View {
                     }
                 }
 
-                AboutSectionView()
+                AboutView()
 
-                ContactDeveloperSectionView(settings: settings)
+                ContactDeveloperView(settings: settings)
             }
             .navigationTitle("Settings")
             .accentColor(settings.tintColors)

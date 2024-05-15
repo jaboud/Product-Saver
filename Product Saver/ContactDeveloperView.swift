@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContactDeveloperSectionView: View {
+struct ContactDeveloperView: View {
 
     @ObservedObject var settings: Settings
     @State private var isContactDeveloperOptionsActionSheetPresented = false
@@ -84,5 +84,5 @@ struct ContactDeveloperSectionView: View {
 }
 
 #Preview {
-    ContactDeveloperSectionView(settings: Settings())
+    ContactDeveloperView(settings: Settings())
 }
