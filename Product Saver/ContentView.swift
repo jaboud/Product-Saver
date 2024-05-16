@@ -103,7 +103,6 @@ struct ContentView: View {
                     Section {
                         Text("Grouping by: \(settings.isGroupingProducts ? settings.groupProductBy : "Categories")")
                             .font(.headline)
-                            .font(.headline)
                     }
                 }
                 List {
