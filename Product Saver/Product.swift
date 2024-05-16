@@ -35,14 +35,28 @@ final class Product {
 }
 
 extension Product {
-
     static var sampleProducts: [Product] {
-        [
-            Product(itemName: "Milk", brandName: "Dairy Farmers", desc: "Full cream milk", notes: "Use by 25/2/2024", previewImage: "Milk"),
-            Product(itemName: "Bread", brandName: "Wonder", desc: "White", notes: "Use by 25/2/2024", previewImage: "Bread"),
-            Product(itemName: "Butter", brandName: "Flora Proactiv", desc: "Salted", notes: "Use by 25/2/2024", previewImage: "Butter"),
-            Product(itemName: "Cheese", brandName: "Bega", desc: "Tasty", notes: "Use by 25/2/2024", previewImage: "Cheese"),
-            Product(itemName: "Yoghurt", brandName: "Farmers Union", desc: "Greek", notes: "Use by 25/2/2024", previewImage: "Yogurt")
+        let categories = Category.sampleCategories
+        let categoryDict = Dictionary(uniqueKeysWithValues: categories.map { ($0.categoryName, $0) })
+
+        return [
+            Product(itemName: "Milk", brandName: "Dairy Farmers", desc: "Full cream milk", notes: "Use by 25/2/2024", previewImage: "Milk").assjgnCategory(from: categoryDict),
+            Product(itemName: "Bread", brandName: "Wonder", desc: "White", notes: "Use by 25/2/2024", previewImage: "Bread").assjgnCategory(from: categoryDict),
+            Product(itemName: "Butter", brandName: "Flora Proactiv", desc: "Salted", notes: "Use by 25/2/2024", previewImage: "Butter").assjgnCategory(from: categoryDict),
+            Product(itemName: "Cheese", brandName: "Bega", desc: "Tasty", notes: "Use by 25/2/2024", previewImage: "Cheese").assjgnCategory(from: categoryDict),
+            Product(itemName: "Yoghurt", brandName: "Farmers Union", desc: "Greek", notes: "Use by 25/2/2024", previewImage: "Yogurt").assjgnCategory(from: categoryDict)
         ]
+    }
+
+    func assjgnCategory(from dict: [String: Category]) -> Self {
+        switch self.itemName {
+        case "Milk", "Butter", "Cheese", "Yoghurt":
+            self.category = dict["Dairy"]
+        case "Bread":
+            self.category = dict["Bakery"]
+        default:
+            break
+        }
+        return self
     }
 }
