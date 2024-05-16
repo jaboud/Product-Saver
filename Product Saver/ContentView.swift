@@ -19,32 +19,37 @@ struct ContentView: View {
     @State private var showCreateDetailsView = false
     @State private var searchQuery = ""
 
-    var filteredData: [Product] {
-        var data = products
+    private func filterProducts(_ products: [Product], query: String) -> [Product] {
+        return products.compactMap { product in
+            let itemContainsQuery = product.itemName.range(of: query, options: .caseInsensitive) != nil
+            let brandContainsQuery = product.brandName.range(of: query, options: .caseInsensitive) != nil
+            return (itemContainsQuery || brandContainsQuery) ? product : nil
+        }
+    }
 
-        if !searchQuery.isEmpty {
-            data = data.compactMap { product in
-                let itemContainsQuery = product.itemName.range(of: searchQuery, options: .caseInsensitive) != nil
-                let brandContainsQuery = product.brandName.range(of: searchQuery, options: .caseInsensitive) != nil
-
-                return (itemContainsQuery || brandContainsQuery) ? product : nil
+    private func groupProducts(_ products: [Product]) -> [String: [Product]] {
+        if settings.isGroupingCategories {
+            return Dictionary(grouping: products) { $0.category?.categoryName ?? "None" }
+        } else if settings.isGroupingProducts && searchQuery.isEmpty {
+            if settings.groupProductBy == "Item" {
+                return Dictionary(grouping: products) { String($0.itemName.prefix(1)) }
+            } else if settings.groupProductBy == "Brand" {
+                return Dictionary(grouping: products) { String($0.brandName.prefix(1)) }
             }
         }
+        return [:]
+    }
 
+    var filteredData: [Product] {
+        var data = products
+        if !searchQuery.isEmpty {
+            data = filterProducts(data, query: searchQuery)
+        }
         return data.sort(on: selectedSortOption)
     }
 
     var groupedData: [String: [Product]] {
-        if settings.isGroupingCategories {
-            return Dictionary(grouping: filteredData) { $0.category?.categoryName ?? "None" }
-        } else if settings.isGroupingProducts && searchQuery.isEmpty {
-            if settings.groupProductBy == "Item" {
-                return Dictionary(grouping: filteredData) { String($0.itemName.prefix(1)) }
-            } else if settings.groupProductBy == "Brand" {
-                return Dictionary(grouping: filteredData) { String($0.brandName.prefix(1)) }
-            }
-        }
-        return [:]
+        return groupProducts(filteredData)
     }
 
     func productListView(products: [Product]) -> some View {
