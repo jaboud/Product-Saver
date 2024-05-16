@@ -40,12 +40,31 @@ struct ContentView: View {
         return [:]
     }
 
+    private func sortProducts(_ products: [Product], by option: SortProduct) -> [Product] {
+        switch option {
+        case .recentlyAdded:
+            return products.sorted(by: { $0.id > $1.id })
+        case .oldest:
+            return products.sorted(by: { $0.id < $1.id })
+        case .item:
+            return products.sorted(by: { $0.itemName.compare($1.itemName, options: .caseInsensitive) == .orderedAscending })
+        case .brand:
+            return products.sorted(by: { $0.brandName.compare($1.brandName, options: .caseInsensitive) == .orderedAscending })
+        case .Category:
+            return products.sorted(by: {
+                let firstCategoryName = $0.category?.categoryName ?? "None"
+                let secondCategoryName = $1.category?.categoryName ?? "None"
+                return firstCategoryName.compare(secondCategoryName, options: .caseInsensitive) == .orderedAscending
+            })
+        }
+    }
+
     var filteredData: [Product] {
         var data = products
         if !searchQuery.isEmpty {
             data = filterProducts(data, query: searchQuery)
         }
-        return data.sort(on: selectedSortOption)
+        return sortProducts(data, by: selectedSortOption)
     }
 
     var groupedData: [String: [Product]] {
@@ -183,28 +202,6 @@ struct ContentView: View {
                 CreateProductDetailsView()
             }
         })
-    }
-}
-
-private extension [Product] {
-
-    func sort(on option: SortProduct) -> [Product] {
-        switch option {
-        case .recentlyAdded:
-            return self.sorted(by: { $0.id > $1.id })
-        case .oldest:
-            return self.sorted(by: { $0.id < $1.id })
-        case .item:
-            return self.sorted(by: { $0.itemName.compare($1.itemName, options: .caseInsensitive) == .orderedAscending })
-        case .brand:
-            return self.sorted(by: { $0.brandName.compare($1.brandName, options: .caseInsensitive) == .orderedAscending })
-        case .Category:
-            return self.sorted(by: {
-                let firstCategoryName = $0.category?.categoryName ?? "None"
-                let secondCategoryName = $1.category?.categoryName ?? "None"
-                return firstCategoryName.compare(secondCategoryName, options: .caseInsensitive) == .orderedAscending
-            })
-        }
     }
 }
 
