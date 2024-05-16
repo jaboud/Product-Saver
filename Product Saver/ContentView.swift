@@ -20,24 +20,23 @@ struct ContentView: View {
     @State private var searchQuery = ""
 
     private func filterProducts(_ products: [Product], query: String) -> [Product] {
-        return products.compactMap { product in
+        return products.filter { product in
             let itemContainsQuery = product.itemName.range(of: query, options: .caseInsensitive) != nil
             let brandContainsQuery = product.brandName.range(of: query, options: .caseInsensitive) != nil
-            return (itemContainsQuery || brandContainsQuery) ? product : nil
+            return itemContainsQuery || brandContainsQuery
         }
     }
 
     private func groupProducts(_ products: [Product]) -> [String: [Product]] {
-        if settings.isGroupingCategories {
+        switch (settings.isGroupingCategories, settings.isGroupingProducts && searchQuery.isEmpty) {
+        case (true, _):
             return Dictionary(grouping: products) { $0.category?.categoryName ?? "None" }
-        } else if settings.isGroupingProducts && searchQuery.isEmpty {
-            if settings.groupProductBy == "Item" {
-                return Dictionary(grouping: products) { String($0.itemName.prefix(1)) }
-            } else if settings.groupProductBy == "Brand" {
-                return Dictionary(grouping: products) { String($0.brandName.prefix(1)) }
-            }
+        case (_, true):
+            let keyPath: KeyPath<Product, String> = settings.groupProductBy == "Item" ? \.itemName : \.brandName
+            return Dictionary(grouping: products) { String($0[keyPath: keyPath].prefix(1)) }
+        default:
+            return [:]
         }
-        return [:]
     }
 
     private func sortProducts(_ products: [Product], by option: SortProduct) -> [Product] {
