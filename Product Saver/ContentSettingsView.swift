@@ -54,6 +54,5 @@ struct ContentSettingsView: View {
 
 #Preview {
     let settings = Settings()
-    settings.isGroupingCategories = false
     return ContentSettingsView(settings: settings)
 }
