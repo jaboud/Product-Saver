@@ -82,9 +82,11 @@ struct ContentView: View {
                             Label("Brand Name", systemImage: "building")
                                 .foregroundStyle(.gray)
                             Text(product.brandName)
-                            Label("Category", systemImage: "folder")
-                                .foregroundStyle(.gray)
-                            Text(product.category?.categoryName ?? "None")
+                            if !settings.isGroupingCategories {
+                                Label("Category", systemImage: "folder")
+                                    .foregroundStyle(.gray)
+                                Text(product.category?.categoryName ?? "None")
+                            }
                         }
                     }
                     .sheet(item: $editProduct,
