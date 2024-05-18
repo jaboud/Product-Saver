@@ -207,8 +207,6 @@ struct ContentView: View {
 #Preview {
     let preview = PreviewContainer(Product.self)
     preview.addExamples(Product.sampleProducts)
-    let settings = Settings()
-    settings.isGroupingCategories = true
     return ContentView()
         .modelContainer(preview.container)
         .environmentObject(Settings())
