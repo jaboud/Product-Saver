@@ -42,12 +42,12 @@ struct ContactDeveloperView: View {
             }
         }
     message:{
-        Text("Alternatively, you can contact the developer at justin.aboud@icloud.com")
+        Text("Alternatively, you can contact the developer at iOSDevJustin@iCloud.com")
      }
     }
 
     func sendEmail(includeDeviceDetails: Bool, subject: String) {
-        let email = "justin.aboud@icloud.com"
+        let email = "iOSDevJustin@iCloud@icloud.com"
         var body = ""
         if includeDeviceDetails {
             let deviceDetails = getDeviceDetails()
