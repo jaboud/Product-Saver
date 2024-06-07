@@ -47,7 +47,7 @@ struct ContactDeveloperView: View {
     }
 
     func sendEmail(includeDeviceDetails: Bool, subject: String) {
-        let email = "iOSDevJustin@iCloud@icloud.com"
+        let email = "iOSDevJustin@iCloud.com"
         var body = ""
         if includeDeviceDetails {
             let deviceDetails = getDeviceDetails()
